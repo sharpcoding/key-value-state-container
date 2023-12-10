@@ -19,6 +19,12 @@
 <ul class="tsd-signatures">
 <li class="tsd-signature tsd-anchor-link" id="registerActionDispatchedCallback"><span class="tsd-kind-call-signature">register<wbr/>Action<wbr/>Dispatched<wbr/>Callback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">TState</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">TAction</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">args</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#registerActionDispatchedCallback" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Low-level function registering a callback that will get called when an action
+got dispatched.</p>
+<p>No matter the state was changed or not, a was reducer invoked or not
+(see also <code>bypassReducer</code> in the <code>dispatchAction()</code> function),
+this callback will get called.</p>
+</div>
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
@@ -31,9 +37,10 @@
 <ul class="tsd-parameter-list">
 <li>
 <h5><span class="tsd-kind-parameter">args</span>: <a href="../interfaces/RegisterActionDispatchedCallbackArgs.html" class="tsd-signature-type tsd-kind-interface">RegisterActionDispatchedCallbackArgs</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">TState</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">TAction</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/WealthArc/key-value-state-container/blob/f150413/key-value-state-container/src/types/contracts/register-action-dispatched-callback.ts#L15">types/contracts/register-action-dispatched-callback.ts:15</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/00b138a/src/types/contracts/register-action-dispatched-callback.ts#L19">types/contracts/register-action-dispatched-callback.ts:19</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -53,10 +60,10 @@
 <nav class="tsd-navigation"><a href="../modules.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1"></use></svg><span>key-value-state-container</span></a>
 <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="..">
 <li><a href="../interfaces/Action.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Action</a></li>
+<li><a href="../interfaces/AutoActions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>AutoActions</a></li>
 <li><a href="../interfaces/ClientNotificationCallbackArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ClientNotificationCallbackArgs</a></li>
 <li><a href="../interfaces/Config.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Config</a></li>
 <li><a href="../interfaces/ConfigDebugSection.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ConfigDebugSection</a></li>
-<li><a href="../interfaces/Dispatcher.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Dispatcher</a></li>
 <li><a href="../interfaces/GetContainerConfig.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>GetContainerConfig</a></li>
 <li><a href="../interfaces/Reducer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Reducer</a></li>
 <li><a href="../interfaces/RegisterActionDispatchedCallbackArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>RegisterActionDispatchedCallbackArgs</a></li>
@@ -69,10 +76,10 @@
 <li><a href="../interfaces/UnregisterActionDispatchedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterActionDispatchedCallback</a></li>
 <li><a href="../interfaces/UnregisterStateChangedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateChangedCallback</a></li>
 <li><a href="../interfaces/UnregisterStateContainer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateContainer</a></li>
+<li><a href="../types/CallbacksDictionary.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CallbacksDictionary</a></li>
 <li><a href="../types/TKnownStatePath.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>TKnownStatePath</a></li>
 <li><a href="clearAllEnqueuedActions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>clearAllEnqueuedActions</a></li>
 <li><a href="containerRegistered.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>containerRegistered</a></li>
-<li><a href="dispatchAction.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>dispatchAction</a></li>
 <li>Loading...</li></ul></nav></div></div></div>
 <div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" rel="noopener" target="_blank">TypeDoc</a></p></div>

@@ -27,7 +27,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">RegisterActionDispatchedCallbackArgs</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/WealthArc/key-value-state-container/blob/f150413/key-value-state-container/src/types/contracts/register-action-dispatched-callback.ts#L4">types/contracts/register-action-dispatched-callback.ts:4</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/00b138a/src/types/contracts/register-action-dispatched-callback.ts#L4">types/contracts/register-action-dispatched-callback.ts:4</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -46,7 +46,7 @@
 <h3 class="tsd-anchor-link"><span>action</span><a href="#action" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">action</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type ">Pick</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">TAction</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">&quot;name&quot;</span><span class="tsd-signature-symbol">&gt;</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/WealthArc/key-value-state-container/blob/f150413/key-value-state-container/src/types/contracts/register-action-dispatched-callback.ts#L8">types/contracts/register-action-dispatched-callback.ts:8</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/00b138a/src/types/contracts/register-action-dispatched-callback.ts#L8">types/contracts/register-action-dispatched-callback.ts:8</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="callback" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>callback</span><a href="#callback" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">callback</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">args</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></div>
@@ -64,17 +64,21 @@
 <h5><span class="tsd-kind-parameter">args</span>: <a href="ClientNotificationCallbackArgs.html" class="tsd-signature-type tsd-kind-interface">ClientNotificationCallbackArgs</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">TState</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">TAction</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4></li></ul></li></ul></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/WealthArc/key-value-state-container/blob/f150413/key-value-state-container/src/types/contracts/register-action-dispatched-callback.ts#L9">types/contracts/register-action-dispatched-callback.ts:9</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/00b138a/src/types/contracts/register-action-dispatched-callback.ts#L9">types/contracts/register-action-dispatched-callback.ts:9</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="containerId" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>container<wbr/>Id</span><a href="#containerId" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">container<wbr/>Id</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
+<div class="tsd-signature"><span class="tsd-kind-property">container<wbr/>Id</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+<div class="tsd-comment tsd-typography"><p>The id of the container to/in which the action should be dispatched.
+If the container is not registered, the function will throw an error.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/WealthArc/key-value-state-container/blob/f150413/key-value-state-container/src/types/contracts/register-action-dispatched-callback.ts#L10">types/contracts/register-action-dispatched-callback.ts:10</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/00b138a/src/types/contracts/register-action-dispatched-callback.ts#L14">types/contracts/register-action-dispatched-callback.ts:14</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="listenerId" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>listener<wbr/>Id</span><a href="#listenerId" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">listener<wbr/>Id</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/WealthArc/key-value-state-container/blob/f150413/key-value-state-container/src/types/contracts/register-action-dispatched-callback.ts#L11">types/contracts/register-action-dispatched-callback.ts:11</a></li></ul></aside></section></section></div>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/00b138a/src/types/contracts/register-action-dispatched-callback.ts#L15">types/contracts/register-action-dispatched-callback.ts:15</a></li></ul></aside></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -102,10 +106,10 @@
 <nav class="tsd-navigation"><a href="../modules.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1"></use></svg><span>key-value-state-container</span></a>
 <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="..">
 <li><a href="Action.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Action</a></li>
+<li><a href="AutoActions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>AutoActions</a></li>
 <li><a href="ClientNotificationCallbackArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ClientNotificationCallbackArgs</a></li>
 <li><a href="Config.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Config</a></li>
 <li><a href="ConfigDebugSection.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ConfigDebugSection</a></li>
-<li><a href="Dispatcher.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Dispatcher</a></li>
 <li><a href="GetContainerConfig.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>GetContainerConfig</a></li>
 <li><a href="Reducer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Reducer</a></li>
 <li><a href="RegisterActionDispatchedCallbackArgs.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>RegisterActionDispatchedCallbackArgs</a></li>
@@ -118,10 +122,10 @@
 <li><a href="UnregisterActionDispatchedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterActionDispatchedCallback</a></li>
 <li><a href="UnregisterStateChangedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateChangedCallback</a></li>
 <li><a href="UnregisterStateContainer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateContainer</a></li>
+<li><a href="../types/CallbacksDictionary.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CallbacksDictionary</a></li>
 <li><a href="../types/TKnownStatePath.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>TKnownStatePath</a></li>
 <li><a href="../functions/clearAllEnqueuedActions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>clearAllEnqueuedActions</a></li>
 <li><a href="../functions/containerRegistered.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>containerRegistered</a></li>
-<li><a href="../functions/dispatchAction.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>dispatchAction</a></li>
 <li>Loading...</li></ul></nav></div></div></div>
 <div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" rel="noopener" target="_blank">TypeDoc</a></p></div>

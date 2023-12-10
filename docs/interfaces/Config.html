@@ -29,7 +29,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">Config</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/WealthArc/key-value-state-container/blob/f150413/key-value-state-container/src/types/config/index.ts#L6">types/config/index.ts:6</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/00b138a/src/types/config/index.ts#L6">types/config/index.ts:6</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -39,16 +39,20 @@
 <h3 class="tsd-index-heading">Properties</h3>
 <div class="tsd-index-list"><a href="Config.html#actionQueueMaxLength" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>action<wbr/>Queue<wbr/>Max<wbr/>Length?</span></a>
 <a href="Config.html#debug" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>debug?</span></a>
+<a href="Config.html#keepState" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>keep<wbr/>State?</span></a>
 <a href="Config.html#managedAttributes" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>managed<wbr/>Attributes?</span></a>
-<a href="Config.html#persistent" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>persistent?</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member"><a id="actionQueueMaxLength" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>action<wbr/>Queue<wbr/>Max<wbr/>Length</span><a href="#actionQueueMaxLength" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">action<wbr/>Queue<wbr/>Max<wbr/>Length</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span></div><aside class="tsd-sources">
+<div class="tsd-signature"><span class="tsd-kind-property">action<wbr/>Queue<wbr/>Max<wbr/>Length</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span></div>
+<div class="tsd-comment tsd-typography">
+<h4>Default</h4><pre><code class="language-ts"><span class="hl-9">1000</span>
+</code><button>Copy</button></pre>
+</div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/WealthArc/key-value-state-container/blob/f150413/key-value-state-container/src/types/config/index.ts#L7">types/config/index.ts:7</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/00b138a/src/types/config/index.ts#L10">types/config/index.ts:10</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="debug" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>debug</span><a href="#debug" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">debug</span><span class="tsd-signature-symbol">?:</span> <a href="ConfigDebugSection.html" class="tsd-signature-type tsd-kind-interface">ConfigDebugSection</a></div>
@@ -57,7 +61,23 @@ it is the only place where this kind of the information is displayed).</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/WealthArc/key-value-state-container/blob/f150413/key-value-state-container/src/types/config/index.ts#L13">types/config/index.ts:13</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/00b138a/src/types/config/index.ts#L16">types/config/index.ts:16</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member"><a id="keepState" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>keep<wbr/>State</span><a href="#keepState" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">keep<wbr/>State</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div>
+<div class="tsd-comment tsd-typography"><p>Makes container state immune to calling <code>registerStateContainer</code> function
+multiple times.</p>
+<p>If set to true, other calls (but first) to registerStateContainer 
+function won&#39;t override existing container state with initial state once again.</p>
+<p>It does not affect <code>unregisterStateContainer</code> function - once &quot;unregister&quot; 
+gets called, the state gets removed.</p>
+</div>
+<div class="tsd-comment tsd-typography">
+<h4>Default</h4><pre><code class="language-ts"><span class="hl-0">false</span>
+</code><button>Copy</button></pre>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/00b138a/src/types/config/index.ts#L50">types/config/index.ts:50</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="managedAttributes" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>managed<wbr/>Attributes</span><a href="#managedAttributes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">managed<wbr/>Attributes</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">asyncOperationFlag</span><span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type tsd-kind-type-parameter">TState</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></div>
@@ -81,17 +101,7 @@ this field is set to <code>false</code>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/WealthArc/key-value-state-container/blob/f150413/key-value-state-container/src/types/config/index.ts#L20">types/config/index.ts:20</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member"><a id="persistent" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>persistent</span><a href="#persistent" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
-<div class="tsd-signature"><span class="tsd-kind-property">persistent</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div>
-<div class="tsd-comment tsd-typography"><p>If set to true, any other calls (but first) to
-registerStateContainer won&#39;t override existing container state
-with initial state.</p>
-</div>
-<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/WealthArc/key-value-state-container/blob/f150413/key-value-state-container/src/types/config/index.ts#L40">types/config/index.ts:40</a></li></ul></aside></section></section></div>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/00b138a/src/types/config/index.ts#L23">types/config/index.ts:23</a></li></ul></aside></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -113,16 +123,16 @@ with initial state.</p>
 <ul>
 <li><a href="#actionQueueMaxLength" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>action<wbr/>Queue<wbr/>Max<wbr/>Length</span></a></li>
 <li><a href="#debug" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>debug</span></a></li>
-<li><a href="#managedAttributes" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>managed<wbr/>Attributes</span></a></li>
-<li><a href="#persistent" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>persistent</span></a></li></ul></div></details></div>
+<li><a href="#keepState" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>keep<wbr/>State</span></a></li>
+<li><a href="#managedAttributes" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>managed<wbr/>Attributes</span></a></li></ul></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="../modules.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1"></use></svg><span>key-value-state-container</span></a>
 <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="..">
 <li><a href="Action.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Action</a></li>
+<li><a href="AutoActions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>AutoActions</a></li>
 <li><a href="ClientNotificationCallbackArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ClientNotificationCallbackArgs</a></li>
 <li><a href="Config.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Config</a></li>
 <li><a href="ConfigDebugSection.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ConfigDebugSection</a></li>
-<li><a href="Dispatcher.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Dispatcher</a></li>
 <li><a href="GetContainerConfig.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>GetContainerConfig</a></li>
 <li><a href="Reducer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Reducer</a></li>
 <li><a href="RegisterActionDispatchedCallbackArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>RegisterActionDispatchedCallbackArgs</a></li>
@@ -135,10 +145,10 @@ with initial state.</p>
 <li><a href="UnregisterActionDispatchedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterActionDispatchedCallback</a></li>
 <li><a href="UnregisterStateChangedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateChangedCallback</a></li>
 <li><a href="UnregisterStateContainer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateContainer</a></li>
+<li><a href="../types/CallbacksDictionary.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CallbacksDictionary</a></li>
 <li><a href="../types/TKnownStatePath.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>TKnownStatePath</a></li>
 <li><a href="../functions/clearAllEnqueuedActions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>clearAllEnqueuedActions</a></li>
 <li><a href="../functions/containerRegistered.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>containerRegistered</a></li>
-<li><a href="../functions/dispatchAction.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>dispatchAction</a></li>
 <li>Loading...</li></ul></nav></div></div></div>
 <div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" rel="noopener" target="_blank">TypeDoc</a></p></div>

@@ -12,7 +12,155 @@
 <div class="col-content">
 <div class="tsd-page-title">
 <h2>key-value-state-container</h2></div>
-<div class="tsd-panel tsd-typography"><a id="md:key-value-state-container" class="tsd-anchor"></a><h1><a href="#md:key-value-state-container">key-value-state-container</a></h1></div></div>
+<div class="tsd-panel tsd-typography"><a id="md:key-value-state-container" class="tsd-anchor"></a><h1><a href="#md:key-value-state-container">key-value-state-container</a></h1><p>A simple, library-agnostic key-value state container following <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a> and <code>redux</code> (uni-directional data flow) patterns.</p>
+<a id="md:example-fibonacci-sequence-counting" class="tsd-anchor"></a><h2><a href="#md:example-fibonacci-sequence-counting">Example (Fibonacci sequence counting)</a></h2><pre><code class="language-ts"><span class="hl-0">type</span><span class="hl-1"> </span><span class="hl-2">Action</span><span class="hl-1"> =</span><br/><span class="hl-1">  </span><span class="hl-3">/**</span><br/><span class="hl-3">   * makes the calculation step</span><br/><span class="hl-3">   */</span><br/><span class="hl-1">  | {</span><br/><span class="hl-1">      </span><span class="hl-4">name</span><span class="hl-1">: </span><span class="hl-5">&quot;step&quot;</span><span class="hl-1">;</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">  </span><span class="hl-3">/**</span><br/><span class="hl-3">   * resets the state</span><br/><span class="hl-3">   */</span><br/><span class="hl-1">  | { </span><span class="hl-4">name</span><span class="hl-1">: </span><span class="hl-5">&quot;reset&quot;</span><span class="hl-1"> };</span><br/><br/><span class="hl-0">type</span><span class="hl-1"> </span><span class="hl-2">State</span><span class="hl-1"> = {</span><br/><span class="hl-1">  </span><span class="hl-3">/**</span><br/><span class="hl-3">   * indicates number of finished steps</span><br/><span class="hl-3">   */</span><br/><span class="hl-1">  </span><span class="hl-4">steps</span><span class="hl-1">: </span><span class="hl-2">number</span><span class="hl-1">;</span><br/><span class="hl-1">  </span><span class="hl-3">/**</span><br/><span class="hl-3">   * the result sequence of Fibonacci numbers</span><br/><span class="hl-3">   */</span><br/><span class="hl-1">  </span><span class="hl-4">sequence</span><span class="hl-1">: </span><span class="hl-2">number</span><span class="hl-1">[];</span><br/><span class="hl-1">};</span><br/><br/><span class="hl-6">export</span><span class="hl-1"> </span><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-7">reducer</span><span class="hl-1">: </span><span class="hl-2">Reducer</span><span class="hl-1">&lt;</span><span class="hl-2">State</span><span class="hl-1">, </span><span class="hl-2">Action</span><span class="hl-1">&gt; = </span><span class="hl-0">async</span><span class="hl-1"> ({ </span><span class="hl-4">state</span><span class="hl-1">, </span><span class="hl-4">action</span><span class="hl-1"> }) </span><span class="hl-0">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-0">const</span><span class="hl-1"> { </span><span class="hl-8">steps</span><span class="hl-1"> } = </span><span class="hl-4">state</span><span class="hl-1">;</span><br/><span class="hl-1">  </span><span class="hl-6">switch</span><span class="hl-1"> (</span><span class="hl-4">action</span><span class="hl-1">.</span><span class="hl-4">name</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-6">case</span><span class="hl-1"> </span><span class="hl-5">&quot;step&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">      </span><span class="hl-3">/**</span><br/><span class="hl-3">       * For the first 3 steps, the sequence is [0, 1, 1] and we</span><br/><span class="hl-3">       * have it hardcoded.</span><br/><span class="hl-3">       */</span><br/><span class="hl-1">      </span><span class="hl-6">if</span><span class="hl-1"> (</span><span class="hl-4">steps</span><span class="hl-1"> &lt; </span><span class="hl-9">3</span><span class="hl-1">) {</span><br/><span class="hl-1">        </span><span class="hl-6">return</span><span class="hl-1"> {</span><br/><span class="hl-1">          ...</span><span class="hl-4">state</span><span class="hl-1">,</span><br/><span class="hl-1">          </span><span class="hl-4">steps:</span><span class="hl-1"> </span><span class="hl-4">steps</span><span class="hl-1"> + </span><span class="hl-9">1</span><span class="hl-1">,</span><br/><span class="hl-1">          </span><span class="hl-4">sequence:</span><span class="hl-1"> [</span><span class="hl-9">0</span><span class="hl-1">, </span><span class="hl-9">1</span><span class="hl-1">, </span><span class="hl-9">1</span><span class="hl-1">].</span><span class="hl-7">slice</span><span class="hl-1">(</span><span class="hl-9">0</span><span class="hl-1">, </span><span class="hl-4">steps</span><span class="hl-1"> + </span><span class="hl-9">1</span><span class="hl-1">),</span><br/><span class="hl-1">        };</span><br/><span class="hl-1">      }</span><br/><span class="hl-1">      </span><span class="hl-6">return</span><span class="hl-1"> {</span><br/><span class="hl-1">        ...</span><span class="hl-4">state</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-4">steps:</span><span class="hl-1"> </span><span class="hl-4">steps</span><span class="hl-1"> + </span><span class="hl-9">1</span><span class="hl-1">,</span><br/><span class="hl-1">        </span><span class="hl-4">sequence:</span><span class="hl-1"> [</span><br/><span class="hl-1">          ...</span><span class="hl-4">state</span><span class="hl-1">.</span><span class="hl-4">sequence</span><span class="hl-1">,</span><br/><span class="hl-1">          </span><span class="hl-3">/** each number is the sum of the two preceding ones */</span><br/><span class="hl-1">          </span><span class="hl-4">state</span><span class="hl-1">.</span><span class="hl-4">sequence</span><span class="hl-1">[</span><span class="hl-4">steps</span><span class="hl-1"> - </span><span class="hl-9">1</span><span class="hl-1">] + </span><span class="hl-4">state</span><span class="hl-1">.</span><span class="hl-4">sequence</span><span class="hl-1">[</span><span class="hl-4">steps</span><span class="hl-1"> - </span><span class="hl-9">2</span><span class="hl-1">],</span><br/><span class="hl-1">        ],</span><br/><span class="hl-1">      };</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">    </span><span class="hl-6">case</span><span class="hl-1"> </span><span class="hl-5">&quot;reset&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">      </span><span class="hl-6">return</span><span class="hl-1"> { </span><span class="hl-4">steps:</span><span class="hl-1"> </span><span class="hl-9">0</span><span class="hl-1">, </span><span class="hl-4">sequence:</span><span class="hl-1"> [] };</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">    </span><span class="hl-6">default</span><span class="hl-1">: {</span><br/><span class="hl-1">      </span><span class="hl-6">return</span><span class="hl-1"> </span><span class="hl-4">state</span><span class="hl-1">;</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">};</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-8">containerId</span><span class="hl-1"> = </span><span class="hl-5">&quot;fibonacci-container&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-3">// allocates memory and creates the container</span><br/><span class="hl-7">registerStateContainer</span><span class="hl-1">&lt;</span><span class="hl-2">State</span><span class="hl-1">, </span><span class="hl-2">Action</span><span class="hl-1">&gt;({</span><br/><span class="hl-1">  </span><span class="hl-4">containerId</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">initialState:</span><span class="hl-1"> { </span><span class="hl-4">steps:</span><span class="hl-1"> </span><span class="hl-9">1</span><span class="hl-1">, </span><span class="hl-4">sequence:</span><span class="hl-1"> [] },</span><br/><span class="hl-1">  </span><span class="hl-4">reducer</span><span class="hl-1">,</span><br/><span class="hl-1">});</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-7">countFibonacciSequence</span><span class="hl-1"> = </span><span class="hl-0">async</span><span class="hl-1"> (</span><span class="hl-4">n</span><span class="hl-1">: </span><span class="hl-2">number</span><span class="hl-1">) </span><span class="hl-0">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-7">dispatchAction</span><span class="hl-1">({</span><br/><span class="hl-1">    </span><span class="hl-4">containerId</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-4">action:</span><span class="hl-1"> { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-5">&quot;reset&quot;</span><span class="hl-1"> },</span><br/><span class="hl-1">  });</span><br/><span class="hl-1">  </span><span class="hl-6">for</span><span class="hl-1"> (</span><span class="hl-0">let</span><span class="hl-1"> </span><span class="hl-4">i</span><span class="hl-1"> = </span><span class="hl-9">0</span><span class="hl-1">; </span><span class="hl-4">i</span><span class="hl-1"> &lt;= </span><span class="hl-4">n</span><span class="hl-1">; </span><span class="hl-4">i</span><span class="hl-1">++) {</span><br/><span class="hl-1">    </span><span class="hl-7">dispatchAction</span><span class="hl-1">({</span><br/><span class="hl-1">      </span><span class="hl-4">containerId</span><span class="hl-1">,</span><br/><span class="hl-1">      </span><span class="hl-4">action:</span><span class="hl-1"> { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-5">&quot;step&quot;</span><span class="hl-1"> },</span><br/><span class="hl-1">    });</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">  </span><span class="hl-3">// wait until all actions are processed</span><br/><span class="hl-1">  </span><span class="hl-6">await</span><span class="hl-1"> </span><span class="hl-7">finishedProcessingQueue</span><span class="hl-1">({ </span><span class="hl-4">containerId</span><span class="hl-1"> });</span><br/><span class="hl-1">  </span><span class="hl-0">const</span><span class="hl-1"> { </span><span class="hl-8">sequence</span><span class="hl-1"> } = </span><span class="hl-7">getContainer</span><span class="hl-1">&lt;</span><span class="hl-2">State</span><span class="hl-1">&gt;({ </span><span class="hl-4">containerId</span><span class="hl-1"> });</span><br/><span class="hl-1">  </span><span class="hl-6">return</span><span class="hl-1"> </span><span class="hl-4">sequence</span><span class="hl-1">;</span><br/><span class="hl-1">};</span><br/><br/><span class="hl-3">/**</span><br/><span class="hl-3"> * somewhere else in the code</span><br/><span class="hl-3"> */</span><br/><span class="hl-6">await</span><span class="hl-1"> </span><span class="hl-7">countFibonacciSequence</span><span class="hl-1">(</span><span class="hl-9">5</span><span class="hl-1">);</span><br/><span class="hl-6">await</span><span class="hl-1"> </span><span class="hl-7">countFibonacciSequence</span><span class="hl-1">(</span><span class="hl-9">8</span><span class="hl-1">);</span><br/><span class="hl-6">await</span><span class="hl-1"> </span><span class="hl-7">countFibonacciSequence</span><span class="hl-1">(</span><span class="hl-9">12</span><span class="hl-1">);</span>
+</code><button>Copy</button></pre>
+<p>Disclaimer: the code above is not the best way to calculate the Fibonacci sequence! It is just a simple example to demonstrate the usage of the library. </p>
+<a id="md:key-points" class="tsd-anchor"></a><h2><a href="#md:key-points">Key points:</a></h2><ul>
+<li>strictly follows the MVC pattern:<ul>
+<li><code>M</code> - model: the state</li>
+<li><code>V</code> - view: the UI (currently React via <code>key-value-state-container-react</code> <code>useSelector</code> hook)</li>
+<li><code>C</code> - controller - is the reducer (and optional <code>autoActions</code> function extension, see below)</li>
+</ul>
+</li>
+<li><code>flux</code>-like</li>
+<li>small, easy to understand codebase</li>
+<li>minimal dependencies (currently only <code>lodash</code>)</li>
+<li>simple: state changes are detected at the master attribute level</li>
+<li>supports persistence pattern</li>
+<li>&quot;change anything&quot; attitude, ready for extensions</li>
+<li>no dogmas:<ul>
+<li>reducer code is <code>async</code> (but you can use it as synchronous, see examples)</li>
+<li>&quot;how to invoke action from reducer&quot; problem solved with optional &quot;autoActions&quot; function</li>
+<li>you can manipulate the state directly (but no callbacks will get invoked)</li>
+</ul>
+</li>
+<li>written with TypeScript (so typings are included automatically!)</li>
+<li>good unit test coverage</li>
+<li>aims at good documentation</li>
+</ul>
+<a id="md:precautions" class="tsd-anchor"></a><h2><a href="#md:precautions">Precautions</a></h2><p>Although the library is already used in the production environment, it is still in the early stage of development, so API and some specific naming might change.</p>
+<a id="md:roadmap" class="tsd-anchor"></a><h2><a href="#md:roadmap">Roadmap</a></h2><ul>
+<li>sagas - right now it is visible in <code>clearAllEnqueuedActions()</code></li>
+<li>improved developer experience</li>
+</ul>
+<a id="md:installation" class="tsd-anchor"></a><h2><a href="#md:installation">Installation</a></h2><pre><code><span class="hl-4">npm</span><span class="hl-1"> </span><span class="hl-4">install</span><span class="hl-1"> </span><span class="hl-4">key</span><span class="hl-1">-</span><span class="hl-4">value</span><span class="hl-1">-</span><span class="hl-4">state</span><span class="hl-1">-</span><span class="hl-4">container</span>
+</code><button>Copy</button></pre>
+<p>or</p>
+<pre><code><span class="hl-4">yarn</span><span class="hl-1"> </span><span class="hl-4">add</span><span class="hl-1"> </span><span class="hl-4">key</span><span class="hl-1">-</span><span class="hl-4">value</span><span class="hl-1">-</span><span class="hl-4">state</span><span class="hl-1">-</span><span class="hl-4">container</span>
+</code><button>Copy</button></pre>
+<a id="md:extending-working-with-the-development-version" class="tsd-anchor"></a><h2><a href="#md:extending-working-with-the-development-version">Extending (working with the development version)</a></h2><p>When modifying the container code (e.g. adding extensions, bug fixing etc) that will be utilized by other projects with the same machine/filesystem, follow the following steps:</p>
+<ul>
+<li>make modifications to the <code>key-value-state-container</code> as needed</li>
+<li>execute <code>npm run test</code></li>
+<li>if there are no tests for the use case, add them</li>
+<li>execute <code>npm run pack</code><ul>
+<li>this will create a local version of the package</li>
+<li>this local-version can be consumed by other projects by adding <code>&quot;dependencies&quot;</code> entry (see also <code>key-value-state-container-react</code> project`)<pre><code><span class="hl-1"> </span><span class="hl-5">&quot;dependencies&quot;</span><span class="hl-1">: {</span><br/><span class="hl-1">  </span><span class="hl-5">&quot;key-value-state-container&quot;</span><span class="hl-4">:</span><span class="hl-1"> </span><span class="hl-5">&quot;file:~/key-value-state-container-1.0.0.tgz&quot;</span><span class="hl-1">,</span><br/><span class="hl-1"> }</span>
+</code><button>Copy</button></pre>
+</li>
+</ul>
+</li>
+<li>run <code>npm i</code> in the &quot;consuming&quot; project</li>
+</ul>
+<a id="md:the-tgz-caching-problem" class="tsd-anchor"></a><h3><a href="#md:the-tgz-caching-problem">The <code>tgz</code> caching problem</a></h3><p>The problem is: once created and consumed, a<code>tgz</code> file will get cached (somewhere?).
+So making changes to the code and repeating the steps above will not make the new changes &quot;visible&quot; 😢 in the consuming project. The problem might be caused by <code>&quot;integrity&quot;</code> attribute in the <code>package-lock.json</code> file.</p>
+<p>Anyways, there are two alternative strategies to overcome this:</p>
+<ul>
+<li>delete <code>node_modules</code> folder <strong>and</strong> <code>package-lock.json</code> in the consuming project,</li>
+<li>add (temporarily!) a new version number to the <code>package.json</code> of the <code>key-value-state-container</code> project, e.g. <code>&quot;version&quot;: &quot;1.0.1&quot;</code>, and repeat the steps above</li>
+</ul>
+<a id="md:qampa" class="tsd-anchor"></a><h2><a href="#md:qampa">Q&amp;A</a></h2><a id="md:what-was-the-pattern-followed-flux-or-mvc" class="tsd-anchor"></a><h3><a href="#md:what-was-the-pattern-followed-flux-or-mvc">What was the pattern followed: Flux or MVC?</a></h3><p>Probably both, but the MVC pattern - being unidirectional itself - was the main inspiration.</p>
+<a id="md:what-are-the-benefits-of-using-a-mvc-compliant-state-container" class="tsd-anchor"></a><h3><a href="#md:what-are-the-benefits-of-using-a-mvc-compliant-state-container">What are the benefits of using a MVC-compliant state container?</a></h3><ul>
+<li>it is easier to reason about other programmer&#39;s code</li>
+<li>it makes bug fixing and maintenance so much easier<ul>
+<li>in most cases we don&#39;t need to analyze/understand the whole application - it is just enough to track action that causes the problem</li>
+</ul>
+</li>
+<li>separation of concerns:<ul>
+<li>view is just presenting the state to the user</li>
+<li>all business logic is (can be) bundled in the reducer</li>
+</ul>
+</li>
+</ul>
+<a id="md:how-do-you-understand-the-idea-of-a-reducer" class="tsd-anchor"></a><h3><a href="#md:how-do-you-understand-the-idea-of-a-reducer">How do you understand the idea of a reducer?</a></h3><ul>
+<li>it is a function that:<ul>
+<li>takes the current state</li>
+<li>takes an action</li>
+<li>returns a <strong>promise</strong> of the new state</li>
+</ul>
+</li>
+<li>reducer has no business to be &quot;pure&quot;<ul>
+<li>going more in depth here, just the contrary, being async brought the opportunity to introduce something like an &quot;action queue&quot; (buffer) (see the code) and <code>lateInvoke</code> option, that is used by <code>useSelector</code> implementation of <code>key-value-state-container-react</code>, providing a nice and cheap UI refresh optimization</li>
+</ul>
+</li>
+<li>it does not have always return a <strong>new</strong> state (see also optional <code>bypassReducer</code> action attribute), so reducer might just return the current state, but</li>
+<li>the key point for reducer to exist is to make some kind business operation, e.g. in rare cases there might be a REST API call or a IndexDB operation causing no effects to state or UI (just return <code>state</code> in this case)</li>
+</ul>
+<a id="md:what-are-possible-applications-of-a-state-container" class="tsd-anchor"></a><h3><a href="#md:what-are-possible-applications-of-a-state-container">What are possible applications of a state container?</a></h3><ul>
+<li>custom made component, which implements its own state under the hood (externally exposing only props to the world)</li>
+<li>application state management</li>
+<li>game state management (see the demo project!)</li>
+</ul>
+<a id="md:why-keep-everything-in-a-single-store" class="tsd-anchor"></a><h3><a href="#md:why-keep-everything-in-a-single-store">Why keep everything in a single store?</a></h3><p>The answer to this question is twofold:</p>
+<ul>
+<li>for a simple component, you probably will fit into a single store anyways</li>
+<li>for an application / screen a single store will prove handy, as there is a very high chance a single attribute might (surprisingly) get calculated on values of several other attributes, so it is best to keep them in a single place</li>
+</ul>
+<p>If someone is still not convinced: there no limit on stores/state-containers in the app memory (as long as these stores are registered under different ids). The problem might be with the store synchronization (and reason why one should do so ?).</p>
+<a id="md:why-yet-another-state-container" class="tsd-anchor"></a><h3><a href="#md:why-yet-another-state-container">Why yet another state container?</a></h3><p>The biggest reason why people are staring &quot;state-container projects&quot; is the state management being <strong>the most important</strong> part of the UI application development, especially the complex cases.</p>
+<p>State-management is the KING 👑, which especially holds true at the component/application maintenance phase.</p>
+<p>It is more important to UI framework/CSS solution used.</p>
+<p>Writing a state container is a decision at the <strong>architectural</strong>, not coding level.</p>
+<p>&quot;Design for your own&quot; is not only the freedom of doing &quot;anything&quot;, but taking responsibility to make the solution easy to develop, understand and maintain.</p>
+<a id="md:quick-and-random-comparison-to-other-quotstate-containersquot" class="tsd-anchor"></a><h4><a href="#md:quick-and-random-comparison-to-other-quotstate-containersquot">Quick and random comparison to other &quot;state containers&quot;</a></h4><p>What popular state containers are offering at the developer experience and architectural levels?</p>
+<ul>
+<li><code>redux</code> and <code>react-redux</code><ul>
+<li>forces way too much boilerplate code to write</li>
+<li>there are some arbitrary rules to follow:<ul>
+<li>reducers are &quot;pure functions&quot; with no &quot;side effects&quot; allowed, so there is no way to implement real-life &quot;business logic&quot; (which in 99% is just interacting with REST API) in the reducers themselves</li>
+<li>in order to dispatch a new action from the reducer, one has to understand and utilize the concept of &quot;thunk&quot; and &quot;middleware&quot;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>redux-toolkit</code> is much better (improvement over <code>react-redux</code>), but still there are some arbitrary architectural decisions to follow, e.g.<ul>
+<li>reducers are still &quot;pure functions&quot; with no &quot;side effects&quot; allowed,</li>
+<li>dispatching an action to store requires &quot;seeing&quot; action functions (the slice result) or &quot;seeing&quot; the actions creators and store</li>
+</ul>
+</li>
+<li><code>useReducer</code><ul>
+<li>simple hook</li>
+<li><code>React</code> only</li>
+<li><code>dispatch</code> function returned as the <code>result[1]</code> is not very handy to use (one must to pass them down the component hierarchy tree)</li>
+<li>might deliver some non-performant solutions (causes all components below the hierarchy to re-render)</li>
+</ul>
+</li>
+<li><code>mobx</code> is a mature and well-established library, yet it lacks purity and simplicity, e.g.<ul>
+<li>state is defined in <code>class</code></li>
+<li>the class provides functions that mutate the object as well 😳</li>
+<li>there is a <code>autorun()</code> &quot;magic&quot;: the final effect might be very difficult to maintain and debug, especially in more complex applications</li>
+<li>it looks like it is much more difficult to write unit tests for the code, as business logic is scattered all over the place</li>
+</ul>
+</li>
+<li><code>recoil.js</code>:<ul>
+<li>React only</li>
+<li>state is scattered all over the place in &quot;atoms&quot;</li>
+<li>business logic is placed in something named &quot;selector&quot;</li>
+<li>there are no actions, so reasoning about faulty code might be much more difficult</li>
+<li>both of &quot;atoms&quot; and &quot;selectors&quot; are hooks and must follow the rules of hooks</li>
+<li>testing business logic looks cumbersome, as it requires mocking the atoms/selectors</li>
+</ul>
+</li>
+</ul>
+<p>The brief descriptions above was not meant to be a criticism of the existing solutions, but rather course of reasoning that the architecture is much more &quot;ambitious&quot; (and much more beneficial) undertaking to &quot;just making the job done&quot; or &quot;just writing bug-free code&quot;.</p>
+<p>Another reasons for writing custom state containers are:</p>
+<ul>
+<li>state containers are relatively small and easy to write (so much easier to writing a 2D/3D game engine or UI framework with a custom virtual DOM implementation)</li>
+<li>it seems there is no state container that follows MVC pattern</li>
+<li>there is no versatile state management solution for React out-of-the-box</li>
+</ul>
+<a id="md:how-to-design-the-state-attributes" class="tsd-anchor"></a><h3><a href="#md:how-to-design-the-state-attributes">How to design the state attributes?</a></h3></div></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -34,15 +182,39 @@
 <ul>
 <li>
 <ul>
-<li><a href="#md:key-value-state-container"><span>key-<wbr/>value-<wbr/>state-<wbr/>container</span></a></li></ul></li></ul></div></details></div>
+<li><a href="#md:key-value-state-container"><span>key-<wbr/>value-<wbr/>state-<wbr/>container</span></a></li>
+<li>
+<ul>
+<li><a href="#md:example-fibonacci-sequence-counting"><span>Example (<wbr/>Fibonacci sequence counting)</span></a></li>
+<li><a href="#md:key-points"><span>Key points:</span></a></li>
+<li><a href="#md:precautions"><span>Precautions</span></a></li>
+<li><a href="#md:roadmap"><span>Roadmap</span></a></li>
+<li><a href="#md:installation"><span>Installation</span></a></li>
+<li><a href="#md:extending-working-with-the-development-version"><span>Extending (working with the development version)</span></a></li>
+<li>
+<ul>
+<li><a href="#md:the-tgz-caching-problem"><span>The tgz caching problem</span></a></li></ul></li>
+<li><a href="#md:qampa"><span>Q&amp;A</span></a></li>
+<li>
+<ul>
+<li><a href="#md:what-was-the-pattern-followed-flux-or-mvc"><span>What was the pattern followed: <wbr/>Flux or MVC?</span></a></li>
+<li><a href="#md:what-are-the-benefits-of-using-a-mvc-compliant-state-container"><span>What are the benefits of using a MVC-<wbr/>compliant state container?</span></a></li>
+<li><a href="#md:how-do-you-understand-the-idea-of-a-reducer"><span>How do you understand the idea of a reducer?</span></a></li>
+<li><a href="#md:what-are-possible-applications-of-a-state-container"><span>What are possible applications of a state container?</span></a></li>
+<li><a href="#md:why-keep-everything-in-a-single-store"><span>Why keep everything in a single store?</span></a></li>
+<li><a href="#md:why-yet-another-state-container"><span>Why yet another state container?</span></a></li>
+<li>
+<ul>
+<li><a href="#md:quick-and-random-comparison-to-other-quotstate-containersquot"><span>Quick and random comparison to other &quot;state containers&quot;</span></a></li></ul></li>
+<li><a href="#md:how-to-design-the-state-attributes"><span>How to design the state attributes?</span></a></li></ul></li></ul></li></ul></li></ul></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="modules.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1"></use></svg><span>key-value-state-container</span></a>
 <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base=".">
 <li><a href="interfaces/Action.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Action</a></li>
+<li><a href="interfaces/AutoActions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>AutoActions</a></li>
 <li><a href="interfaces/ClientNotificationCallbackArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ClientNotificationCallbackArgs</a></li>
 <li><a href="interfaces/Config.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Config</a></li>
 <li><a href="interfaces/ConfigDebugSection.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ConfigDebugSection</a></li>
-<li><a href="interfaces/Dispatcher.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Dispatcher</a></li>
 <li><a href="interfaces/GetContainerConfig.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>GetContainerConfig</a></li>
 <li><a href="interfaces/Reducer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Reducer</a></li>
 <li><a href="interfaces/RegisterActionDispatchedCallbackArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>RegisterActionDispatchedCallbackArgs</a></li>
@@ -55,10 +227,10 @@
 <li><a href="interfaces/UnregisterActionDispatchedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterActionDispatchedCallback</a></li>
 <li><a href="interfaces/UnregisterStateChangedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateChangedCallback</a></li>
 <li><a href="interfaces/UnregisterStateContainer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateContainer</a></li>
+<li><a href="types/CallbacksDictionary.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CallbacksDictionary</a></li>
 <li><a href="types/TKnownStatePath.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>TKnownStatePath</a></li>
 <li><a href="functions/clearAllEnqueuedActions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>clearAllEnqueuedActions</a></li>
 <li><a href="functions/containerRegistered.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>containerRegistered</a></li>
-<li><a href="functions/dispatchAction.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>dispatchAction</a></li>
 <li>Loading...</li></ul></nav></div></div></div>
 <div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" rel="noopener" target="_blank">TypeDoc</a></p></div>
