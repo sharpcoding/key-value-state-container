@@ -150,10 +150,12 @@ When modifying the container code (e.g. adding extensions, bug fixing etc) that 
 - if there are no tests for the use case, add them
 - execute `npm run pack`
   - this will create a local version of the package
-  - this local-version can be consumed by other projects by adding `"dependencies"` entry (see also `key-value-state-container-react` project`)
+- you need to bump the version number each time you make a change to the code (read below)
+- optionally: you can directly point to the version of the package in the "consuming" project: 
+ e.g. 
     ```
      "dependencies": {
-      "key-value-state-container": "file:~/key-value-state-container-1.0.0.tgz",
+       "key-value-state-container": "file:~/key-value-state-container-1.0.0.tgz",
      }
     ```
 - run `npm i` in the "consuming" project
