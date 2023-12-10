@@ -96,7 +96,9 @@ await countFibonacciSequence(8);
 await countFibonacciSequence(12);
 ```
 
-Disclaimer: the code above is not the best way to calculate the Fibonacci sequence! It is just a simple example to demonstrate the usage of the library. 
+Disclaimer: the code above is not the best way to calculate the Fibonacci sequence! It is just a simple example to demonstrate the usage of the library.
+
+Bonus question: what is missing? 
 
 ## Key points:
 
