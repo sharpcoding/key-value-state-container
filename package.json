@@ -1,0 +1,51 @@
+{
+  "name": "key-value-state-container",
+  "version": "1.0.0",
+  "date": "2023-Dec-10 10:00",
+  "description": "A simple, library-agnostic key-value state container following MVC and uni-directional data flow patterns",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc",
+    "pack": "npm run build && npm pack --pack-destination ~",
+    "doc": "typedoc src/index-for-documentation.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE.md",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WealthArc/key-value-state-container.git"
+  },
+  "keywords": [
+    "Redux",
+    "TypeScript",
+    "state-container"
+  ],
+  "author": "Tomasz Szatkowski, WealthArc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WealthArc/key-value-state-container/issues"
+  },
+  "homepage": "https://github.com/WealthArc/key-value-state-container#readme",
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
+    "@babel/preset-typescript": "^7.23.2",
+    "@types/jest": "^29.5.7",
+    "@types/lodash": "4.14.134",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "ts-node": "^10.9.1",
+    "typedoc": "^0.25.2",
+    "typescript": "^5.1.6"
+  }
+}
