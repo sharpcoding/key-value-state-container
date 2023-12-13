@@ -178,7 +178,7 @@ export const executeAction = async <
 
   if (action.waitForFullUiRepaint) {
     _.defer(async () => {
-      await actionNextSteps({
+      actionNextSteps({
         action,
         containerId,
       });
@@ -186,7 +186,7 @@ export const executeAction = async <
     return;
   }
 
-  await actionNextSteps({
+  actionNextSteps({
     action,
     containerId,
   });

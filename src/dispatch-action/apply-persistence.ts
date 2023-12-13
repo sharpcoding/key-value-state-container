@@ -36,7 +36,7 @@ interface Args {
   containerId: string;
 }
 
-export const applyPersistence = async ({
+export const applyPersistence = ({
   containerId,
 }: Args) => {
   const container = containers[containerId];
@@ -63,7 +63,7 @@ export const applyPersistence = async ({
         prefix: container.persistence?.prefix,
       });
 
-  const existingEnvelope: PersistenceEnvelope | undefined = await getEnvelope(
+  const existingEnvelope: PersistenceEnvelope | undefined = getEnvelope(
     key
   );
 
@@ -83,5 +83,5 @@ export const applyPersistence = async ({
     return;
   }
 
-  await setEnvelope(key, envelope);
+  setEnvelope(key, envelope);
 };
