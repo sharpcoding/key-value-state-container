@@ -2,124 +2,282 @@
 
 A simple, library-agnostic key-value based state container following [MVC](https://en.wikipedia.org/wiki/Model–view–controller) and `redux` (uni-directional data flow) patterns. Read the example below or jump into [API](https://sharpcoding.github.io/key-value-state-container/)
 
-## Example (Fibonacci sequence counting)
+## Key points:
+
+- strictly follows the MVC pattern:
+  - `M` - model: the state
+  - `V` - view: (the glue to the) UI (currently React only via `key-value-state-container-react` `useSelector` hook)
+  - `C` - controller - the reducer (and optional `autoActions` function extension, see below)
+- `flux`-like (reactive component-oriented)
+- minimal dependencies (currently only `lodash`)
+- simple: state changes are detected at the master attribute level only (thus `key-value` container)
+- supports synchronous persistence read at the "build initial state" level
+- small, easy to understand and maintain codebase
+- "change anything" attitude, ready for extensions
+- no "dogmas":
+  - reducer is an `async` function, which will save you from writing thunks and middlewares, making all important code and logic in one place (but you can use synchronous reducers as synchronous reducers as well, see examples)
+  - "how to invoke action from reducer" problem solved with optional `autoActions` optional function
+  - you can mutate the state directly (but no callbacks will get invoked)
+- written with TypeScript (so typings are included automatically!)
+- unit test coverage
+- focus on documentation
+
+## Example 
+
+The example presents the `MC` parts of the `MVC` pattern. The `V` part is missing for now, however, the requirement is `V` to be reactive (which is understood as refreshing itself as a result to some kind of "signal"). `key-value-state-container-react` package implements `useSelector` hook, which is a good example of `V` part implementation.
+
+Hopefully, if you know `redux` and `react-redux`, you will find the example below quite familiar.
+
+### Todo MVC application (assumption and requirements)
+
+- each task contains a:
+  - name
+  - emoji
+  - status
+    - `todo`
+    - `in-progress`
+    - `done`
+    - `archived`
+- there are two screens:
+  - the Working Tasks Screen (tasks with `todo`, `in-progress`, `done` statuses)
+  - the Archived Tasks Screen (tasks with `archived` status)
+  - the archived tasks functionality is not 100% implemented right now; once archived, it cannot be undone
+- the Working Tasks Screen can be filtered by
+  - task name
+  - task status
+  - (filter funnel will be visible in the UI to the user)
+  - for now, filter can be only applied to the Working Tasks Screen
+- each time the user changes anything in Working Tasks Screen UI, tasks should get sorted by statuses the following way:
+  - `todo` (at the top)
+  - `in-progress`
+  - `done` (at the bottom)
+
+### `M` - the model (state)
+
+```ts
+type TaskStatus = "archived" | "done" | "in-progress" | "todo";
+
+type Task = {
+  emoji: string;
+  id: string;
+  name: string;
+  status: TaskStatus;
+};
+
+type Filter = {
+  taskName?: string;
+  status?: Omit<TaskStatus, "archived">;
+};
+
+type State = {
+  /**
+   * Current filter applied to the list of tasks
+   * If `undefined` then no filter is applied
+   */
+  filter?: Filter;
+
+  /**
+   * Lookup storing all tasks
+   * The source of truth for tasks
+   */
+  sourceTasks: Record<string, Task>;
+
+  /**
+   * List that is displayed to the user
+   * and can be filtered or discarded at any time
+   */
+  workingTasks: Task[];
+};
+
+type Action =
+  /**
+   * We never delete tasks in system, but we can archive them.
+   * Thus we don't need a special function for unique task id
+   */
+  | {
+      name: "archive-task";
+      payload: Task["id"];
+    }
+  /**
+   * Create or update a task action
+   */
+  | { name: "update-task"; payload: Task }
+  | {
+      name: "set-filter";
+      payload?: Filter;
+    }
+  /**
+   * Special action that is dispatched by `autoActions`
+   * optional function, and not by user/UI
+   */
+  | {
+      name: "sort-working-tasks";
+    };
+```
+
+### `C` - the controller (reducer)
+
+#### Actions
 
 ```ts
 type Action =
   /**
-   * makes the calculation step
+   * We never delete tasks in system, but we can archive them.
+   * Thus we don't need a special function for unique task id
    */
   | {
-      name: "step";
+      name: "archive-task";
+      payload: Task["id"];
     }
   /**
-   * resets the state
+   * Create or update a task action
    */
-  | { name: "reset" };
+  | { name: "update-task"; payload: Task }
+  | {
+      name: "set-filter";
+      payload?: Filter;
+    }
+  /**
+   * Special action that is dispatched by `autoActions`
+   * optional function, and not by user/UI
+   */
+  | {
+      name: "sort-working-tasks";
+    };
 
-type State = {
-  /**
-   * indicates number of finished steps
-   */
-  steps: number;
-  /**
-   * the result sequence of Fibonacci numbers
-   */
-  sequence: number[];
+```
+
+#### Reducer
+
+```ts
+/**
+ * Auxiliary structure
+ */
+const taskSortOrder: Record<TaskStatus, number> = {
+  archived: -1,
+  todo: 0,
+  "in-progress": 1,
+  done: 2,
 };
 
-export const reducer: Reducer<State, Action> = async ({ action, state }) => {
-  const { steps } = state;
+export const reducer: Reducer<State, Action> = async ({ state, action }) => {
   switch (action.name) {
-    case "step": {
-      /**
-       * For the first 3 steps, the sequence is [0, 1, 1] and we
-       * have it hardcoded.
-       */
-      if (steps < 3) {
-        return {
-          ...state,
-          steps: steps + 1,
-          sequence: [0, 1, 1].slice(0, steps + 1),
-        };
+    case "archive-task": {
+      const { payload: taskId } = action;
+      const task = state.sourceTasks[taskId];
+      if (!task) {
+        return state;
       }
+      const sourceTasks: Record<string, Task> = {
+        ...state.sourceTasks,
+        [taskId]: {
+          ...task,
+          status: "archived",
+        },
+      };
       return {
         ...state,
-        steps: steps + 1,
-        sequence: [
-          ...state.sequence,
-          /** each number is the sum of the two preceding ones */
-          state.sequence[steps - 1] + state.sequence[steps - 2],
-        ],
+        sourceTasks,
+        workingTasks: state.workingTasks.filter((el) => el.id !== taskId),
       };
     }
-    case "reset": {
-      return { steps: 0, sequence: [] };
+    case "update-task": {
+      const { payload: task } = action;
+      // add task if doesn't exist
+      if (!state.sourceTasks[task.id]) {
+        const numberOfTasks = Object.keys(state.sourceTasks).length;
+        return {
+          ...state,
+          allTasks: {
+            ...state.sourceTasks,
+            [numberOfTasks + 1]: task,
+          },
+          workingTasks: [...state.workingTasks, task],
+        };
+      }
+      // update task
+      return {
+        ...state,
+        allTasks: {
+          ...state.sourceTasks,
+          [task.id]: task,
+        },
+        workingTasks: state.workingTasks.map((el) => {
+          if (el.id === task.id) {
+            return task;
+          }
+          return el;
+        }),
+      };
+    }
+    case "set-filter": {
+      const { payload } = action;
+      if (!payload) {
+        return {
+          ...state,
+          filter: undefined,
+        };
+      }
+      const { taskName, status } = payload;
+      const workingTasks = Object.values(state.sourceTasks)
+        .filter((task) => {
+          if (status && task.status !== status) {
+            return false;
+          }
+          if (taskName && !task.name.includes(taskName)) {
+            return false;
+          }
+          return true;
+        });
+      return {
+        ...state,
+        workingTasks,
+      };
+    }
+    case "sort-working-tasks": {
+      const workingTasks = [...state.workingTasks].sort((a, b) => {
+        const aOrder = taskSortOrder[a.status];
+        const bOrder = taskSortOrder[b.status];
+        if (aOrder === bOrder) {
+          return a.name.localeCompare(b.name);
+        }
+        return aOrder - bOrder;
+      });
+      return {
+        ...state,
+        workingTasks,
+      }
     }
     default: {
       return state;
     }
   }
 };
-
-const containerId = "fibonacci-container";
-
-// allocates memory and creates the container
-registerStateContainer<State, Action>({
-  containerId,
-  initialState: { steps: 1, sequence: [] },
-  reducer,
-});
-
-const countFibonacciSequence = async (n: number) => {
-  dispatchAction({
-    containerId,
-    action: { name: "reset" },
-  });
-  for (let i = 0; i <= n; i++) {
-    dispatchAction({
-      containerId,
-      action: { name: "step" },
-    });
-  }
-  // wait until all actions are processed
-  await finishedProcessingQueue({ containerId });
-  const { sequence } = getContainer<State>({ containerId });
-  return sequence;
-};
-
-/**
- * somewhere else in the code
- */
-await countFibonacciSequence(5);
-await countFibonacciSequence(8);
-await countFibonacciSequence(12);
 ```
 
-Disclaimer: the code above is not the best way to calculate the Fibonacci sequence! It is just a simple example to demonstrate the usage of the library.
+#### `autoActions` function
 
-Bonus question: what is missing in the code above?
-
-## Key points:
-
-- strictly follows the MVC pattern:
-  - `M` - model: the state
-  - `V` - view: the UI (currently React via `key-value-state-container-react` `useSelector` hook)
-  - `C` - controller - is the reducer (and optional `autoActions` function extension, see below)
-- `flux`-like
-- small, easy to understand codebase
-- minimal dependencies (currently only `lodash`)
-- transient updates (with `registerStateChangedCallback` function)
-- simple: state changes are detected at the master attribute level
-- supports persistence pattern
-- "change anything" attitude, ready for extensions
-- no dogmas:
-  - reducer code is `async` (but you can use it as synchronous, see examples)
-  - "how to invoke action from reducer" problem solved with optional "autoActions" function
-  - you can manipulate the state directly (but no callbacks will get invoked)
-- written with TypeScript (so typings are included automatically!)
-- good unit test coverage
-- aims at good documentation
+```ts
+/**
+ * Special function that is called after each action invocation
+ * and returns a list of actions that are added to the
+ * end of the action queue.
+ *
+ * In brief, we want have the
+ */
+export const autoActions: AutoActions<State, Action> = ({ action }) => {
+  switch (action.name) {
+    case "archive-task":
+    case "set-filter":
+    case "update-task": {
+      return [{ name: "sort-working-tasks" }];
+    }
+    default: {
+      return [];
+    }
+  }
+};
+```
 
 ## Precautions
 
@@ -127,9 +285,9 @@ Although the library is already used in the production environment, it is still 
 
 ## Roadmap
 
+- recomputed attributes
+- improved developer experience with logging toolkit, action queue visualization etc.
 - sagas - right now it is visible in `clearAllEnqueuedActions()`
-- improved developer experience with custom logs
-- computed attributes
 
 ## Installation
 
@@ -174,9 +332,37 @@ Anyways, there are two alternative strategies to overcome this:
 
 ## Q&A
 
-### What was the pattern followed: Flux or MVC?
+### Why yet another state container?
 
-Probably both, but the MVC pattern - being unidirectional itself - was the main inspiration.
+#### High-level response
+
+The biggest reason people are staring "state-container" projects (and why we have so many React state-containers right now) is the following:
+
+State management is **the most important** part of UI application development, especially the complex cases people are getting paid for. Simply put, state-management is the KING 👑, which especially holds true at the component/application maintenance phase. It is more important than UI framework/CSS solution used.
+
+Secondly, writing a state container is a decision at the **architectural**, not coding level.
+
+"Design for your own" is not only the freedom of doing "anything", but taking responsibility to make the solution easy to develop, understand and maintain.
+
+#### Low-level response
+
+In mid 2017 I've been using `redux` and `react-redux` and I enjoyed it a lot, however, there was too much boilerplate code to write. This boilerplate was eliminated by `redux-toolkit`, but some limiting factors of the architecture remained, e.g synchronous reducers, middleware, how to send an action from reducer etc. I needed something simpler, that follows the pattern, but is ready for extensions at the same time.
+
+Thus having said, state containers are relatively small and easy to write (certainly much easier than writing a 2D/3D game engine). 
+
+Learning and fun factors were also important motivation to "brewing own".
+
+### It the state-container a `redux` replacement?
+
+Definitely not. `redux`, `react-redux` and `redux-toolkit` are great libraries, and it is a good idea to use it if you are happy with it. `key-value-state-container` is a slightly more "experimental" approach to state management, with quality in mind at the same time.
+
+### Looking at a screen using `key-value-state-container`, how many state containers there could be?
+
+Maybe it is time to demystify the `MVC` assumption here a little bit. The `MVC` pattern served only as a reference. `key-value-state-container` is modern, 2020s component-oriented state-container. In practice, it means that in a more complex screen there can be dozens of state-containers, e.g.:
+- main screen state container
+- as many state containers as there are `<Component1 />`s, `<Component2 />`s etc.
+
+The big assumption here is that each component exposes only `props` to the world, and the state is managed under the hood. This is a big advantage, as it makes the component much more reusable.
 
 ### What are the benefits of using a MVC-compliant state container?
 
@@ -190,8 +376,9 @@ Probably both, but the MVC pattern - being unidirectional itself - was the main 
 ### How do you understand the idea of a reducer?
 
 - reducer is a function that:
-  - takes the current state as an argument
-  - takes an action as an argument
+  - takes the following arguments:
+    - current state
+    - an action
   - returns a **promise** of the new state
 - reducer has no business to be "pure"
   - going more in depth here, just the contrary, being async brought the opportunity to introduce something like an "action queue" (buffer) (see the code) and `lateInvoke` option, that is used by `useSelector` implementation of `key-value-state-container-react`, providing a nice and cheap UI refresh optimization
@@ -213,63 +400,11 @@ The answer to this question is twofold:
 
 If someone is still not convinced: there no limit on stores/state-containers in the app memory (as long as these stores are registered under different ids). The problem might be with the store synchronization (and reason why one should do so ?).
 
-### Why yet another state container?
+### How to design attributes in state?
 
-The biggest reason why people are staring "state-container projects" is the state management being **the most important** part of the UI application development, especially the complex cases.
-
-State-management is the KING 👑, which especially holds true at the component/application maintenance phase.
-
-It is more important to UI framework/CSS solution used.
-
-Writing a state container is a decision at the **architectural**, not coding level.
-
-"Design for your own" is not only the freedom of doing "anything", but taking responsibility to make the solution easy to develop, understand and maintain.
-
-#### Quick and random comparison to other "state containers"
-
-What popular state containers are offering at the developer experience and architectural levels?
-
-- `redux` and `react-redux`
-  - forces way too much boilerplate code to write
-  - there are some arbitrary rules to follow:
-    - reducers are "pure functions" with no "side effects" allowed, so there is no way to implement real-life "business logic" (which in 99% is just interacting with REST API) in the reducers themselves
-    - in order to dispatch a new action from the reducer, one has to understand and utilize the concept of "thunk" and "middleware"
-- `redux-toolkit` is much better (improvement over `react-redux`), but still there are some arbitrary architectural decisions to follow, e.g.
-  - reducers need still to be "pure functions" with no "side effects" allowed,
-  - dispatching an action to store requires "seeing" action functions (see the slice result) or "seeing" the actions creators and store, contrary to just dispatching an action object to the store registered with a given id
-- `zustand`
-  - state container is a hook, which eliminates the possibility of using it outside of React
-- `useReducer`
-  - simple hook
-  - `React` only
-  - `dispatch` function returned as the `result[1]` is not very handy to use (one must to pass them down the component hierarchy tree)
-  - might deliver some non-performant solutions (causes all components below the hierarchy to re-render)
-- `mobx` is a mature and well-established library, yet it lacks purity and simplicity, e.g.
-  - state is defined in `class`
-  - the class provides functions that mutate the object as well 😳
-  - there is a `autorun()` "magic": the final effect might be very difficult to maintain and debug, especially in more complex applications
-  - it looks like it is much more difficult to write unit tests for the code, as business logic is scattered all over the place
-- `recoil.js`:
-  - React only
-  - state is scattered all over the place in "atoms"
-  - business logic is placed in something named "selector"
-  - there are no actions, so reasoning about faulty code might be much more difficult
-  - both of "atoms" and "selectors" are hooks and must follow the rules of hooks
-  - testing business logic looks cumbersome, as it requires mocking the atoms/selectors
-
-The brief descriptions above was not meant to be a criticism of the existing solutions, but rather course of reasoning that the architecture is much more "ambitious" (and much more beneficial) undertaking to "just making the job done" or "just writing bug-free code".
-
-Another reasons for writing custom state containers are:
-
-- state containers are relatively small and easy to write (so much easier to writing a 2D/3D game engine or UI framework with a custom virtual DOM implementation)
-- it seems there is no state container that follows MVC pattern
-- there is no versatile state management solution for React out-of-the-box
-
-### How to design the state attributes?
-
-There is no silver bullet regarding this, yet there are some guidelines:
+There is no silver bullet regarding this, yet here are some guidelines:
+- store everything in a single store
 - keep the state as flat as possible
-- do not store unnecessary attributes
 - if an attribute won't change or attribute won't be followed by a view, it can be an object with complex structure
 - if there seems some attributes are excessive, maybe it is a situation where the state should be split into two or more containers?
 
