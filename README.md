@@ -88,31 +88,6 @@ type State = {
    */
   workingTasks: Task[];
 };
-
-type Action =
-  /**
-   * We never delete tasks in system, but we can archive them.
-   * Thus we don't need a special function for unique task id
-   */
-  | {
-      name: "archive-task";
-      payload: Task["id"];
-    }
-  /**
-   * Create or update a task action
-   */
-  | { name: "update-task"; payload: Task }
-  | {
-      name: "set-filter";
-      payload?: Filter;
-    }
-  /**
-   * Special action that is dispatched by `autoActions`
-   * optional function, and not by user/UI
-   */
-  | {
-      name: "sort-working-tasks";
-    };
 ```
 
 ### `C` - the controller (reducer)
