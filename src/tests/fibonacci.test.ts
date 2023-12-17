@@ -22,7 +22,6 @@
  * SOFTWARE.
  */
 
-import { before } from "lodash";
 import {
   registerStateContainer,
   Reducer,
