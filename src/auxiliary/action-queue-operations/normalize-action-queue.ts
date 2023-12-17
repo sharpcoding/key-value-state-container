@@ -56,6 +56,7 @@ export const normalizeActionQueue = <TAction extends Action>(
 
   const config = container.config;
 
+  container.bypassReducerActionEnqueued = false;
   container.lateInvokeChangedPaths = [];
 
   container.actionQueueContext = {

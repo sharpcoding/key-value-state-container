@@ -54,6 +54,12 @@ export interface Memory<TState extends Object, TAction extends Action> {
    */
   actionQueueContext: ActionQueueContext<TAction>;
   autoActions?: AutoActions<TState, TAction>;
+  /**
+   * Special optimization flag.
+   * If `true`, indicates `bypassReducer` action was enqueued 
+   * for processing in the current batch
+   */
+  bypassReducerActionEnqueued?: boolean;
   changedPaths: string[];
   config?: Config<TState>;
   id: string;

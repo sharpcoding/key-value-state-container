@@ -1,18 +1,18 @@
 /**
  * The MIT License (MIT)
- * 
- * Copyright Tomasz Szatkowski and WealthArc https://www.wealtharc.com (c) 2023 
- * 
+ *
+ * Copyright Tomasz Szatkowski and WealthArc https://www.wealtharc.com (c) 2023
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,39 +24,44 @@
 
 import _ from "lodash";
 
-import { containers } from "../../containers";
+import { Action } from "../../types/contracts/action";
+import { Memory } from "../../types/memory";
 
 interface Args {
-  containerId: string;
-  query: "count-all-actions" | "count-only-bypass-reducer-actions";
+  container: Memory<Object, Action>;
 }
 
-export const numberOfActionsLeft = (args: Args): number => {
-  const { containerId, query } = args;
+type Result = {
+  all: number;
+  bypassReducer: number;
+};
 
-  const container = containers[containerId];
+export const numberOfActionsLeft = (args: Args): Result => {
+  const { container } = args;
+
   if (!container) {
-    return 0;
+    return {
+      all: 0,
+      bypassReducer: 0,
+    };
   }
-  let result = 0;
+
+  let all = 0;
+  let bypassReducer = 0;
+
   for (
     let i = container.actionQueueContext.currentlyExecutingActionIndex + 1;
     i <= container.actionQueueContext.lastActionIndex;
     i++
   ) {
     const action = container.actionQueueContext.queue[i];
-    switch (query) {
-      case "count-all-actions": {
-        result++;
-        break;
-      }
-      case "count-only-bypass-reducer-actions": {
-        if (action && action.bypassReducer) {
-          result++;
-        }
-        break;
-      }
+    all++;
+    if (action && action.bypassReducer) {
+      bypassReducer++;
     }
   }
-  return result;
+  return {
+    all,
+    bypassReducer,
+  };
 };

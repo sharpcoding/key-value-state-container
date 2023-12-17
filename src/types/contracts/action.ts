@@ -83,7 +83,7 @@ export interface Action {
    * (state-container configuration)
    *
    * Sending action with `async: true` sets the in-state attribute
-   * automatically to `true` automatically as the reducer starts executing,
+   * automatically to `true` as the reducer starts executing,
    * and automatically to `false` - as the reducer ends executing.
    */
   async?: boolean;

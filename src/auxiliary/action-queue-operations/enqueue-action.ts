@@ -1,18 +1,18 @@
 /**
  * The MIT License (MIT)
- * 
- * Copyright Tomasz Szatkowski and WealthArc https://www.wealtharc.com (c) 2023 
- * 
+ *
+ * Copyright Tomasz Szatkowski and WealthArc https://www.wealtharc.com (c) 2023
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -42,10 +42,12 @@ const notify = <TAction extends Action>(
 ) => {
   if (
     container?.config?.debug?.dispatching?.active &&
-    container?.config?.debug?.dispatching?.queue &&
-    container?.config?.debug?.nonTrackedActions
+    container?.config?.debug?.dispatching?.queue
   ) {
-    if (container.config.debug.nonTrackedActions[action.name]) {
+    if (
+      container?.config?.debug?.nonTrackedActions &&
+      container.config.debug.nonTrackedActions[action.name]
+    ) {
       return;
     }
     console.log(
@@ -68,7 +70,9 @@ const addActionToQueue = <TAction extends Action>(
     container.actionQueueContext.lastActionIndex + 1 >
     (container.config?.actionQueueMaxLength || ACTION_QUEUE_DEFAULT_SIZE)
   ) {
-    throw new Error("Action queue buffer overrun (increase queue size in config settings) !");
+    throw new Error(
+      `Action queue buffer overrun (increase ACTION_QUEUE_DEFAULT_SIZE (${ACTION_QUEUE_DEFAULT_SIZE}) in config settings)`
+    );
   }
   container.actionQueueContext.lastActionIndex += 1;
   container.actionQueueContext.queue[
@@ -76,6 +80,10 @@ const addActionToQueue = <TAction extends Action>(
   ] = action;
   container.actionQueueContext.lookup[action.name] =
     container.actionQueueContext.lastActionIndex;
+
+  if (action.bypassReducer) {
+    container.bypassReducerActionEnqueued = true;
+  }
 
   notify<TAction>(container, action, "added to");
 };

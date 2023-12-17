@@ -1,18 +1,18 @@
 /**
  * The MIT License (MIT)
- * 
- * Copyright Tomasz Szatkowski and WealthArc https://www.wealtharc.com (c) 2023 
- * 
+ *
+ * Copyright Tomasz Szatkowski and WealthArc https://www.wealtharc.com (c) 2023
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,11 +27,9 @@ import _ from "lodash";
 import { containers } from "../containers";
 import { Action } from "../types/contracts/action";
 import { getChangedPaths } from "../get-changed-paths";
+import { checkOnlyBypassReducerActionsLeft } from "../auxiliary/action-queue-operations/check-only-bypass-reducer-actions-left";
 import { getActionPath } from "../auxiliary/get-action-path";
-import {
-  getNextAction,
-  numberOfActionsLeft,
-} from "../auxiliary/action-queue-operations";
+import { getNextAction } from "../auxiliary/action-queue-operations";
 import { notifyStateChangedListeners } from "./notify-state-changed-listeners";
 import { getStateWithAsyncFlag } from "./get-state-with-async-flag";
 import { actionNextSteps } from "./action-next-steps";
@@ -117,20 +115,9 @@ export const executeAction = async <
       container.immediateState = {};
       container.changedPaths = changedPaths;
 
-      const numberOfAllActionsLeft = numberOfActionsLeft({
-        containerId,
-        query: "count-all-actions",
-      });
-
-      const numberOfBypassReducerActionsLeft = numberOfActionsLeft({
-        containerId,
-        query: "count-only-bypass-reducer-actions",
-      });
-
       const lastAction =
         nextAction === undefined ||
-        (nextAction.bypassReducer &&
-          numberOfAllActionsLeft === numberOfBypassReducerActionsLeft);
+        checkOnlyBypassReducerActionsLeft({ container });
 
       notifyStateChangedListeners({
         action,

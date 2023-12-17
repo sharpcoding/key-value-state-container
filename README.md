@@ -1,6 +1,6 @@
 # key-value-state-container
 
-A simple, library-agnostic key-value state container following [MVC](https://en.wikipedia.org/wiki/Model–view–controller) and `redux` (uni-directional data flow) patterns. Read the example below or jump into [API](https://sharpcoding.github.io/key-value-state-container/)
+A simple, library-agnostic key-value based state container following [MVC](https://en.wikipedia.org/wiki/Model–view–controller) and `redux` (uni-directional data flow) patterns. Read the example below or jump into [API](https://sharpcoding.github.io/key-value-state-container/)
 
 ## Example (Fibonacci sequence counting)
 
@@ -28,7 +28,7 @@ type State = {
   sequence: number[];
 };
 
-export const reducer: Reducer<State, Action> = async ({ state, action }) => {
+export const reducer: Reducer<State, Action> = async ({ action, state }) => {
   const { steps } = state;
   switch (action.name) {
     case "step": {
@@ -98,7 +98,7 @@ await countFibonacciSequence(12);
 
 Disclaimer: the code above is not the best way to calculate the Fibonacci sequence! It is just a simple example to demonstrate the usage of the library.
 
-Bonus question: what is missing? 
+Bonus question: what is missing in the code above?
 
 ## Key points:
 
@@ -109,6 +109,7 @@ Bonus question: what is missing?
 - `flux`-like
 - small, easy to understand codebase
 - minimal dependencies (currently only `lodash`)
+- transient updates (with `registerStateChangedCallback` function)
 - simple: state changes are detected at the master attribute level
 - supports persistence pattern
 - "change anything" attitude, ready for extensions
@@ -122,12 +123,13 @@ Bonus question: what is missing?
 
 ## Precautions
 
-Although the library is already used in the production environment, it is still in the early stage of development, so API and some specific naming might change.
+Although the library is already used in the production environment, it is still in the early stage of development 🧪, so API and some specific naming might change.
 
 ## Roadmap
 
 - sagas - right now it is visible in `clearAllEnqueuedActions()`
-- improved developer experience
+- improved developer experience with custom logs
+- computed attributes
 
 ## Installation
 
@@ -187,9 +189,9 @@ Probably both, but the MVC pattern - being unidirectional itself - was the main 
 
 ### How do you understand the idea of a reducer?
 
-- it is a function that:
-  - takes the current state
-  - takes an action
+- reducer is a function that:
+  - takes the current state as an argument
+  - takes an action as an argument
   - returns a **promise** of the new state
 - reducer has no business to be "pure"
   - going more in depth here, just the contrary, being async brought the opportunity to introduce something like an "action queue" (buffer) (see the code) and `lateInvoke` option, that is used by `useSelector` implementation of `key-value-state-container-react`, providing a nice and cheap UI refresh optimization
@@ -233,8 +235,10 @@ What popular state containers are offering at the developer experience and archi
     - reducers are "pure functions" with no "side effects" allowed, so there is no way to implement real-life "business logic" (which in 99% is just interacting with REST API) in the reducers themselves
     - in order to dispatch a new action from the reducer, one has to understand and utilize the concept of "thunk" and "middleware"
 - `redux-toolkit` is much better (improvement over `react-redux`), but still there are some arbitrary architectural decisions to follow, e.g.
-  - reducers are still "pure functions" with no "side effects" allowed,
-  - dispatching an action to store requires "seeing" action functions (the slice result) or "seeing" the actions creators and store
+  - reducers need still to be "pure functions" with no "side effects" allowed,
+  - dispatching an action to store requires "seeing" action functions (see the slice result) or "seeing" the actions creators and store, contrary to just dispatching an action object to the store registered with a given id
+- `zustand`
+  - state container is a hook, which eliminates the possibility of using it outside of React
 - `useReducer`
   - simple hook
   - `React` only
@@ -262,6 +266,12 @@ Another reasons for writing custom state containers are:
 - there is no versatile state management solution for React out-of-the-box
 
 ### How to design the state attributes?
+
+There is no silver bullet regarding this, yet there are some guidelines:
+- keep the state as flat as possible
+- do not store unnecessary attributes
+- if an attribute won't change or attribute won't be followed by a view, it can be an object with complex structure
+- if there seems some attributes are excessive, maybe it is a situation where the state should be split into two or more containers?
 
 ## License
 
