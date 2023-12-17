@@ -79,12 +79,18 @@ export interface Action {
   bypassReducer?: boolean;
 
   /**
-   * This flag affects managedAttributes.asyncOperationFlag attribute
-   * (state-container configuration)
+   * This flag affects `managedAttributes.asyncOperationFlag` attribute
+   * (see state-container configuration).
+   * 
+   * This this is not mandatory, but for actions that are "really async"
+   * (mainly HTTP requests) it might be a good idea to set this flag to `true`.
    *
-   * Sending action with `async: true` sets the in-state attribute
+   * Sending action with `async: true` sets the in-state 
+   * `managedAttributes.asyncOperationFlag` attribute
    * automatically to `true` as the reducer starts executing,
    * and automatically to `false` - as the reducer ends executing.
+   * 
+   * This makes just it easier to implement "busy" indicators in UI.
    */
   async?: boolean;
 

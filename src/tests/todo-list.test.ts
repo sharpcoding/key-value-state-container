@@ -195,11 +195,17 @@ export const reducer: Reducer<State, Action> = async ({ state, action }) => {
 };
 
 /**
- * Special function that is called after each action invocation
- * and returns a list of actions that are added to the
- * end of the action queue.
+ * Special, optional function called after each action invocation 
+ * (action that execute created a new state version).
+ * 
+ * It returns a list of actions that are added for later execution 
+ * to the end of action queue.
+ * 
+ * If there are no actions to be added, then an empty array is returned.
  *
- * In brief, we want have the
+ * In brief, we want to sort working tasks very, very often.
+ * Another benefit: a programmer debugging the code would see this 
+ * action, which could help with reasoning about the code. 
  */
 export const autoActions: AutoActions<State, Action> = ({ action }) => {
   switch (action.name) {

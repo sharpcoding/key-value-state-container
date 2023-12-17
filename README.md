@@ -7,7 +7,7 @@ A simple, library-agnostic key-value based state container following [MVC](https
 - strictly follows the MVC pattern:
   - `M` - model: the state
   - `V` - view: (the glue to the) UI (currently React only via `key-value-state-container-react` `useSelector` hook)
-  - `C` - controller - the reducer (and optional `autoActions` function extension, see below)
+  - `C` - controller - the reducer (and optional `autoActions` function extension, see the "Todo MVC application" example code below)
 - `flux`-like (reactive component-oriented)
 - minimal dependencies (currently only `lodash`)
 - simple: state changes are detected at the master attribute level only (thus `key-value` container)
@@ -28,7 +28,7 @@ The example presents the `MC` parts of the `MVC` pattern. The `V` part is missin
 
 Hopefully, if you know `redux` and `react-redux`, you will find the example below quite familiar.
 
-### Todo MVC application (assumption and requirements)
+### Todo MVC application (UI assumptions and requirements)
 
 - each task contains a:
   - name
@@ -259,11 +259,17 @@ export const reducer: Reducer<State, Action> = async ({ state, action }) => {
 
 ```ts
 /**
- * Special function that is called after each action invocation
- * and returns a list of actions that are added to the
- * end of the action queue.
+ * Special, optional function called after each action invocation 
+ * (action that execute created a new state version).
+ * 
+ * It returns a list of actions that are added for later execution 
+ * to the end of action queue.
+ * 
+ * If there are no actions to be added, then an empty array is returned.
  *
- * In brief, we want have the
+ * In brief, we want to sort working tasks very, very often.
+ * Another benefit: a programmer debugging the code would see this 
+ * action, which could help with reasoning about the code. 
  */
 export const autoActions: AutoActions<State, Action> = ({ action }) => {
   switch (action.name) {
@@ -355,6 +361,31 @@ Learning and fun factors were also important motivation to "brewing own".
 ### It the state-container a `redux` replacement?
 
 Definitely not. `redux`, `react-redux` and `redux-toolkit` are great libraries, and it is a good idea to use it if you are happy with it. `key-value-state-container` is a slightly more "experimental" approach to state management, with quality in mind at the same time.
+
+### How it is different from `redux` or `redux-toolkit`?
+
+- reducers can be `async` - no need to write thunks or middlewares
+- `autoActions` optional function, making it possible to "dispatch actions from reducer"
+- smaller and simpler to extend codebase
+- probably easier to learn, as there are less features
+- no immer support, no slices etc
+- handles race conditions by using action queue `immediateState` idea/proposal
+- extensible architecture, ready for extensions and experiments
+  - `bypassReducer` attribute in `Action`
+  - managed attributes
+  - sagas (planned)
+- `redux`'s action `type` attribute is the `name` attribute in `key-value-state-container`
+
+### Is `key-value-state-container` production ready?
+
+Yes, it is used in production environment (as the time of writing this - which is end of 2023 - for about 2 years). 
+
+Here in WealthArc (fin-tech with quite complex logic) dozens of:
+- React components
+- Screens
+successfully use it in the production.
+
+Keep in mind from the Open Source community perspective, the library is still in the early stage of development, so API, some specific naming might change.
 
 ### Looking at a screen using `key-value-state-container`, how many state containers there could be?
 
