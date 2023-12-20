@@ -59,6 +59,9 @@ type TaskStatus = "archived" | "done" | "in-progress" | "todo";
 
 type Task = {
   emoji: string;
+  /**
+   * Unique task id
+   */
   id: string;
   name: string;
   status: TaskStatus;
@@ -71,7 +74,8 @@ type Filter = {
 
 type State = {
   /**
-   * Current filter applied to the list of tasks
+   * Current filter applied to the Working Tasks Screen
+   * making the `workingTasks` list.
    * If `undefined` then no filter is applied
    */
   filter?: Filter;
@@ -97,8 +101,8 @@ type State = {
 ```ts
 type Action =
   /**
-   * We never delete tasks in system, but we can archive them.
-   * Thus we don't need a special function for unique task id
+   * Never delete any task in system, archive it.
+   * Benefit: no need a special function for unique task id
    */
   | {
       name: "archive-task";
@@ -234,8 +238,7 @@ export const reducer: Reducer<State, Action> = async ({ state, action }) => {
 
 ```ts
 /**
- * Special, optional function called after each action invocation 
- * (action that execute created a new state version).
+ * Special, optional function called after each action finished executing.
  * 
  * It returns a list of actions that are added for later execution 
  * to the end of action queue.
@@ -266,7 +269,7 @@ Although the library is already used in the production environment, it is still 
 
 ## Roadmap
 
-- recomputed attributes
+- computed/calculated attributes
 - improved developer experience with logging toolkit, action queue visualization etc.
 - sagas - right now it is visible in `clearAllEnqueuedActions()`
 
@@ -319,7 +322,7 @@ Anyways, there are two alternative strategies to overcome this:
 
 The biggest reason people are staring "state-container" projects (and why we have so many React state-containers right now) is the following:
 
-State management is **the most important** part of UI application development, especially the complex cases people are getting paid for. Simply put, state-management is the KING 👑, which especially holds true at the component/application maintenance phase. It is more important than UI framework/CSS solution used.
+State management is **the most important** part of a UI application development, especially the complex cases people are getting paid for. Simply put, state-management is the KING 👑, which especially holds true at the component/application maintenance phase. It is more important than UI framework/CSS solution used.
 
 Secondly, writing a state container is a decision at the **architectural**, not coding level.
 
@@ -327,11 +330,11 @@ Secondly, writing a state container is a decision at the **architectural**, not 
 
 #### Low-level response
 
-In mid 2017 I've been using `redux` and `react-redux` and I enjoyed it a lot, however, there was too much boilerplate code to write. This boilerplate was eliminated by `redux-toolkit`, but some limiting factors of the architecture remained, e.g synchronous reducers, middleware, how to send an action from reducer etc. I needed something simpler, that follows the pattern, but is ready for extensions at the same time.
+In mid 2017 I've been using `redux` and `react-redux` enjoying it a lot, however, there was too much boilerplate code to write. This boilerplate problem was eliminated by `redux-toolkit`, but some limiting factors of the architecture remained e.g synchronous reducers, middleware, "how to send an action from reducer" problem etc. I needed something simpler, that follows the pattern, but is ready for extensions at the same time.
 
-Thus having said, state containers are relatively small and easy to write (certainly much easier than writing a 2D/3D game engine). 
+Luckily, state containers are relatively small and easy to write (certainly much easier than writing a 2D/3D game engine). 
 
-Learning and fun factors were also important motivation to "brewing own".
+Thus having said, learning and fun factors were also important motivation to "brewing own".
 
 ### It the state-container a `redux` replacement?
 

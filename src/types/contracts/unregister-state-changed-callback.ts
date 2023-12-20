@@ -27,6 +27,7 @@ import { TKnownStatePath } from "./known-state-path";
 export interface UnregisterStateChangedCallback {
   <TState extends Object>(args: {
     containerId: string;
+    lateInvoke?: boolean;
     listenerId: string;
     statePath: TKnownStatePath<TState>
   }): void

@@ -33,7 +33,7 @@ import { applyPersistence } from "./apply-persistence";
 import { containers } from "../containers";
 import { executeAction } from "./execute-action";
 
-export const actionNextSteps = async <TAction extends Action>({
+export const actionNextSteps = <TAction extends Action>({
   action,
   containerId,
 }: {

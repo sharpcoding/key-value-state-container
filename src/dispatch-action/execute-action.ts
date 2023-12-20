@@ -27,9 +27,11 @@ import _ from "lodash";
 import { containers } from "../containers";
 import { Action } from "../types/contracts/action";
 import { getChangedPaths } from "../get-changed-paths";
-import { checkOnlyBypassReducerActionsLeft } from "../auxiliary/action-queue-operations/check-only-bypass-reducer-actions-left";
 import { getActionPath } from "../auxiliary/get-action-path";
-import { getNextAction } from "../auxiliary/action-queue-operations";
+import {
+  checkOnlyBypassReducerActionsLeft,
+  getNextAction,
+} from "../auxiliary/action-queue-operations";
 import { notifyStateChangedListeners } from "./notify-state-changed-listeners";
 import { getStateWithAsyncFlag } from "./get-state-with-async-flag";
 import { actionNextSteps } from "./action-next-steps";
