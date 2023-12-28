@@ -24,7 +24,7 @@
 
 import _ from "lodash";
 
-import { RegisteredOrUnregisteredListenerCallback } from "../types/memory";
+import { RegisteredOrUnregisteredListenerCallback } from "../types/container-in-memory";
 import { containers } from "../containers";
 import { Action } from "../types/contracts/action";
 

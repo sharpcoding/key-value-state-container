@@ -40,6 +40,7 @@ export const getNextAction = <TAction extends Action>(
   const { containerId } = args;
 
   const container = containers[containerId];
+  // istanbul ignore next
   if (!container) {
     console.warn(
       `Cannot get next action - container ${containerId} not found !`,

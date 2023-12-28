@@ -64,6 +64,7 @@ export const registerStateChangedCallback: RegisterStateChangedCallback = <
       internalListenerId,
       log: "container-not-found",
     });
+    /* istanbul ignore next */
     throw new Error("Container not found");
   }
 

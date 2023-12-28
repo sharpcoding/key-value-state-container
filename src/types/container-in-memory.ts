@@ -47,7 +47,7 @@ export type RegisteredOrUnregisteredListenerCallback<
   TAction extends Action
 > = ListenerCallback<TState, TAction> | undefined;
 
-export interface Memory<TState extends Object, TAction extends Action> {
+export interface ContainerInMemory<TState extends Object, TAction extends Action> {
   /**
    * action at the 0 index is currently executing
    * action at the 1 index is should get executed next... etc
@@ -61,7 +61,7 @@ export interface Memory<TState extends Object, TAction extends Action> {
    */
   bypassReducerActionEnqueued?: boolean;
   changedPaths: string[];
-  config?: Config<TState>;
+  config: Config<TState>;
   id: string;
   listeners: Record<
     StatePath,

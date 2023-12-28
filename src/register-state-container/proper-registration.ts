@@ -1,18 +1,18 @@
 /**
  * The MIT License (MIT)
- * 
- * Copyright Tomasz Szatkowski and WealthArc https://www.wealtharc.com (c) 2023 
- * 
+ *
+ * Copyright Tomasz Szatkowski and WealthArc https://www.wealtharc.com (c) 2023
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-import _ from "lodash";
-
 import { Action } from "../types/contracts/action";
 import { containers } from "../containers";
 import { ACTION_QUEUE_DEFAULT_SIZE } from "../consts";
@@ -32,9 +30,12 @@ import {
   Reducer,
   RegisterStateContainerArgs,
 } from "../types/contracts";
+import { cloneObject } from "../auxiliary/clone-object";
+import { registerStateContainerErrorsAndWarnings } from "./register-state-container-errors-and-warnings.logging";
 
 interface Args<TState extends Object, TAction extends Action>
-  extends RegisterStateContainerArgs<TState, TAction> {
+  extends Omit<RegisterStateContainerArgs<TState, TAction>, "config">,
+    Required<Pick<RegisterStateContainerArgs<TState, TAction>, "config">> {
   initialState: TState;
 }
 
@@ -49,8 +50,8 @@ export const properRegistration = <
   reducer,
   persistence,
 }: Args<TState, TAction>) => {
-  const oldState = _.clone(initialState);
-  const newState = _.clone(initialState);
+  const oldState = cloneObject(initialState);
+  const newState = cloneObject(initialState);
   containers[containerId] = {
     actionQueueContext: {
       currentlyExecutingActionIndex: -1,
@@ -77,10 +78,15 @@ export const properRegistration = <
     persistence,
   };
 
+  /* istanbul ignore next */
   if (config?.debug?.registration?.container?.registering) {
     console.log(`Container with id ${containerId} registered`);
     if (config?.debug?.registration?.container?.callstack) {
       console.trace("registerStateContainer()");
     }
   }
+
+  registerStateContainerErrorsAndWarnings({
+    container: containers[containerId],
+  })
 };

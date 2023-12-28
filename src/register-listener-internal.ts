@@ -26,14 +26,14 @@ import _ from "lodash";
 
 import { Action, ClientNotificationCallbackArgs } from "./types/contracts";
 import {
-  Memory,
+  ContainerInMemory,
   RegisteredOrUnregisteredListenerCallback,
-} from "./types/memory";
+} from "./types/container-in-memory";
 
 interface Args<TState extends Object, TAction extends Action> {
   callback: (args: ClientNotificationCallbackArgs<TState, TAction>) => void;
   internalListenerId: string;
-  container: Memory<TState, Action>;
+  container: ContainerInMemory<TState, Action>;
   path: string;
 }
 

@@ -36,10 +36,11 @@ export const unregisterStateContainer: UnregisterStateContainer = (args: {
   }
   const { lastActionIndex } = containers[containerId].actionQueueContext;
   if (lastActionIndex >= 0) {
+    console.log(containers[containerId].actionQueueContext);
     console.log(
       `Failed to unregister container with id ${containerId}, as it has ${
         lastActionIndex + 1
-      } the following actions enqueued`
+      } actions enqueued`
     );
     return;
   }

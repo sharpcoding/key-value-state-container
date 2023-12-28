@@ -28,7 +28,6 @@ import { Reducer } from "../../types/contracts/reducer";
 /**
  * The enhanced logic adds a special action `zero` that bypasses the reducer.
  */
-
 export type Action =
   | {
       name: "increment";

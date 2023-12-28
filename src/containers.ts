@@ -23,9 +23,9 @@
  */
 
 import { Action } from "./types/contracts/action";
-import { Memory } from "./types/memory";
+import { ContainerInMemory } from "./types/container-in-memory";
 
 /**
  * internal in-memory global (object) for keeping state containers
  */
-export let containers: Record<string, Memory<any, Action>> = {};
+export let containers: Record<string, ContainerInMemory<any, Action>> = {};

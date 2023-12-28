@@ -25,10 +25,10 @@
 import _ from "lodash";
 
 import { Action } from "../../types/contracts/action";
-import { Memory } from "../../types/memory";
+import { ContainerInMemory } from "../../types/container-in-memory";
 
 interface Args {
-  container: Memory<Object, Action>;
+  container: ContainerInMemory<Object, Action>;
 }
 
 type Result = {

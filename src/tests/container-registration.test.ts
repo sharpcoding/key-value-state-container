@@ -30,7 +30,7 @@ import { unregisterStateContainer } from "../unregister-state-container";
 
 const containerId = "typical-registration-do-nothing-container";
 
-import { Action, State, reducer } from "./state-container/do-nothing-logic";
+import { Action, State, reducer } from "./common/do-nothing-logic";
 
 test("throws an error for unregistered container", () => {
   try {

@@ -35,6 +35,7 @@ export const markActionGetsExecuted = (args: Args) => {
   const { containerId } = args;
 
   const container = containers[containerId];
+  // istanbul ignore next
   if (!container) {
     console.warn(
       `Cannot execute action - container ${containerId} not found !`

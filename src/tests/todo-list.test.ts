@@ -35,7 +35,7 @@ import {
 type TaskStatus = "archived" | "done" | "in-progress" | "todo";
 
 type Task = {
-  emoji: string;
+  emoji?: string;
   /**
    * Unique task id
    */
@@ -70,29 +70,26 @@ type State = {
 };
 
 type Action =
+  | { name: "add-task"; payload: Task }
   /**
-   * We never delete tasks in system, but we can archive them.
-   * Thus we don't need a special function for unique task id
+   * Never delete tasks in system, archive them.
    */
   | {
       name: "archive-task";
       payload: Task["id"];
     }
-  /**
-   * Create or update a task action
-   */
-  | { name: "update-task"; payload: Task }
   | {
       name: "set-filter";
       payload?: Filter;
     }
   /**
    * Special action that is dispatched by `autoActions`
-   * optional function, and not by user/UI
+   * optional function, and not by user/UI or the test suite.
    */
   | {
       name: "sort-working-tasks";
-    };
+    }
+  | { name: "update-task"; payload: Partial<Task> & Pick<Task, "id"> };
 
 /**
  * Auxiliary structure
@@ -104,8 +101,23 @@ const taskSortOrder: Record<TaskStatus, number> = {
   done: 2,
 };
 
+const getNewTaskId = (state: State): string => {
+  return `${Object.keys(state.sourceTasks).length + 1}`;
+};
+
 export const reducer: Reducer<State, Action> = async ({ state, action }) => {
   switch (action.name) {
+    case "add-task": {
+      const { payload: task } = action;
+      return {
+        ...state,
+        allTasks: {
+          ...state.sourceTasks,
+          [task.id]: task,
+        },
+        workingTasks: [...state.workingTasks, task],
+      };
+    }
     case "archive-task": {
       const { payload: taskId } = action;
       const task = state.sourceTasks[taskId];
@@ -126,29 +138,20 @@ export const reducer: Reducer<State, Action> = async ({ state, action }) => {
       };
     }
     case "update-task": {
-      const { payload: task } = action;
-      // add task if doesn't exist
-      if (!state.sourceTasks[task.id]) {
-        const numberOfTasks = Object.keys(state.sourceTasks).length;
-        return {
-          ...state,
-          allTasks: {
-            ...state.sourceTasks,
-            [numberOfTasks + 1]: task,
-          },
-          workingTasks: [...state.workingTasks, task],
-        };
-      }
-      // update task
+      const { payload: addedTask } = action;
+      const newTask: Task = {
+        ...state.sourceTasks[addedTask.id],
+        ...addedTask,
+      };
       return {
         ...state,
         allTasks: {
           ...state.sourceTasks,
-          [task.id]: task,
+          [addedTask.id]: newTask,
         },
         workingTasks: state.workingTasks.map((el) => {
-          if (el.id === task.id) {
-            return task;
+          if (el.id === addedTask.id) {
+            return newTask;
           }
           return el;
         }),
@@ -160,6 +163,9 @@ export const reducer: Reducer<State, Action> = async ({ state, action }) => {
         return {
           ...state,
           filter: undefined,
+          workingTasks: Object.values(state.sourceTasks).filter(
+            (el) => el.status !== "archived"
+          ),
         };
       }
       const { taskName, status } = payload;
@@ -167,7 +173,10 @@ export const reducer: Reducer<State, Action> = async ({ state, action }) => {
         if (status && task.status !== status) {
           return false;
         }
-        if (taskName && !task.name.includes(taskName)) {
+        if (
+          taskName &&
+          (!task.name.includes(taskName) || task.status === "archived")
+        ) {
           return false;
         }
         return true;
@@ -200,7 +209,7 @@ export const reducer: Reducer<State, Action> = async ({ state, action }) => {
 /**
  * Special, optional function called after each action finished executing.
  *
- * It returns a list of actions that are added for later execution
+ * Returns a list of actions that are added for later execution
  * to the end of action queue.
  *
  * If there are no actions to be added, then an empty array is returned.
@@ -211,6 +220,7 @@ export const reducer: Reducer<State, Action> = async ({ state, action }) => {
  */
 export const autoActions: AutoActions<State, Action> = ({ action }) => {
   switch (action.name) {
+    case "add-task":
     case "archive-task":
     case "set-filter":
     case "update-task": {
@@ -222,6 +232,239 @@ export const autoActions: AutoActions<State, Action> = ({ action }) => {
   }
 };
 
-test("todo list", async () => {
-  expect(true).toEqual(true);
+const containerId = "todo-list";
+
+const buildInitialState = (): State => {
+  const sourceTasks: Record<string, Task> = {
+    1: {
+      emoji: "🥔",
+      id: "1",
+      name: "Buy potatoes",
+      status: "archived",
+    },
+    2: {
+      emoji: "🍎",
+      id: "2",
+      name: "Buy apples",
+      status: "in-progress",
+    },
+    3: {
+      emoji: "🍌",
+      id: "3",
+      name: "Buy bananas",
+      status: "todo",
+    },
+    4: {
+      emoji: "🍊",
+      id: "4",
+      name: "Buy oranges",
+      status: "todo",
+    },
+  };
+  return {
+    filter: undefined,
+    sourceTasks,
+    workingTasks: Object.values(sourceTasks).filter(
+      (el) => el.status !== "archived"
+    ),
+  };
+};
+
+beforeAll(() => {
+  registerStateContainer<State, Action>({
+    autoActions,
+    containerId,
+    initialState: buildInitialState(),
+    reducer,
+  });
+});
+
+afterAll(() => {
+  unregisterStateContainer({ containerId });
+});
+
+test("initial state", () => {
+  const { workingTasks } = getContainer<State>({ containerId });
+  expect(workingTasks).toEqual([
+    {
+      emoji: "🍎",
+      id: "2",
+      name: "Buy apples",
+      status: "in-progress",
+    },
+    {
+      emoji: "🍌",
+      id: "3",
+      name: "Buy bananas",
+      status: "todo",
+    },
+    {
+      emoji: "🍊",
+      id: "4",
+      name: "Buy oranges",
+      status: "todo",
+    },
+  ]);
+});
+
+test("add buy milk task", async () => {
+  const newTask: Task = {
+    emoji: "🥛",
+    id: getNewTaskId(getContainer<State>({ containerId })),
+    name: "Buy milk",
+    status: "todo",
+  };
+  dispatchAction<State, Action>({
+    containerId,
+    action: {
+      name: "add-task",
+      payload: newTask,
+    },
+  });
+  await finishedProcessingQueue({ containerId });
+  expect(getContainer<State>({ containerId }).workingTasks).toEqual([
+    { emoji: "🍌", id: "3", name: "Buy bananas", status: "todo" },
+    {
+      emoji: "🥛",
+      id: "5",
+      name: "Buy milk",
+      status: "todo",
+    },
+    {
+      emoji: "🍊",
+      id: "4",
+      name: "Buy oranges",
+      status: "todo",
+    },
+    {
+      emoji: "🍎",
+      id: "2",
+      name: "Buy apples",
+      status: "in-progress",
+    },
+  ]);
+});
+
+test("filter by task name", async () => {
+  dispatchAction<State, Action>({
+    containerId,
+    action: {
+      name: "set-filter",
+      payload: {
+        taskName: "es",
+      },
+    },
+  });
+  await finishedProcessingQueue({ containerId });
+  expect(getContainer<State>({ containerId }).workingTasks).toEqual([
+    {
+      emoji: "🍊",
+      id: "4",
+      name: "Buy oranges",
+      status: "todo",
+    },
+    {
+      emoji: "🍎",
+      id: "2",
+      name: "Buy apples",
+      status: "in-progress",
+    },
+  ]);
+});
+
+test("filter by task status", async () => {
+  dispatchAction<State, Action>({
+    containerId,
+    action: {
+      name: "set-filter",
+      payload: {
+        taskName: undefined,
+        status: "in-progress",
+      },
+    },
+  });
+  await finishedProcessingQueue({ containerId });
+  expect(getContainer<State>({ containerId }).workingTasks).toEqual([
+    {
+      emoji: "🍎",
+      id: "2",
+      name: "Buy apples",
+      status: "in-progress",
+    },
+  ]);
+});
+
+test("clear filter", async () => {
+  dispatchAction<State, Action>({
+    containerId,
+    action: {
+      name: "set-filter",
+      payload: undefined,
+    },
+  });
+  await finishedProcessingQueue({ containerId });
+  expect(getContainer<State>({ containerId }).workingTasks).toEqual([
+    {
+      emoji: "🍌",
+      id: "3",
+      name: "Buy bananas",
+      status: "todo",
+    },
+    {
+      emoji: "🍊",
+      id: "4",
+      name: "Buy oranges",
+      status: "todo",
+    },
+    {
+      emoji: "🍎",
+      id: "2",
+      name: "Buy apples",
+      status: "in-progress",
+    },
+  ]);
+});
+
+test("mark tasks as done", async () => {
+  dispatchAction<State, Action>({
+    containerId,
+    action: {
+      name: "update-task",
+      payload: {
+        id: "3",
+        status: "done",
+      },
+    },
+  });
+  dispatchAction<State, Action>({
+    containerId,
+    action: {
+      name: "update-task",
+      payload: {
+        id: "2",
+        status: "done",
+      },
+    },
+  });
+  await finishedProcessingQueue({ containerId });
+  expect(getContainer<State>({ containerId }).workingTasks).toEqual([
+    {
+      emoji: "🍊",
+      id: "4",
+      name: "Buy oranges",
+      status: "todo",
+    },
+    {
+      emoji: "🍎",
+      id: "2",
+      name: "Buy apples",
+      status: "done",
+    },
+    {
+      emoji: "🍌",
+      id: "3",
+      name: "Buy bananas",
+      status: "done",
+    },
+  ]);
 });

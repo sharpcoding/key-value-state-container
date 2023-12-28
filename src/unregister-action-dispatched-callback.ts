@@ -45,6 +45,7 @@ export const unregisterActionDispatchedCallback: UnregisterActionDispatchedCallb
     const container = containers[containerId];
 
     if (_.isUndefined(container)) {
+      /* istanbul ignore next */
       return;
     }
 

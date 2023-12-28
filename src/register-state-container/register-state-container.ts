@@ -33,18 +33,20 @@ import {
 import { getPersistenceKey } from "../auxiliary/get-persistence-key";
 import { invokeInitialStateFunctionForPersistence } from "./invoke-initial-state-function-for-persistence";
 import { properRegistration } from "./proper-registration";
+import { configDefaults } from "../types/config/defaults";
 
 export const registerStateContainer: RegisterStateContainer = <
   TState extends Object,
   TAction extends Action
 >({
   autoActions,
-  config,
+  config: argsConfig,
   containerId,
   initialState,
   reducer,
   persistence,
 }: RegisterStateContainerArgs<TState, TAction>) => {
+  const config = { ...configDefaults, ...argsConfig };
   if (_.isObject(containers[containerId])) {
     if (config?.keepState) {
       return;

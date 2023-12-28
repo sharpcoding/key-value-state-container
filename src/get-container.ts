@@ -72,6 +72,7 @@ export const getContainer: GetContainer = (args) => {
     if (ignoreUnregistered) {
       return {};
     }
+    /* istanbul ignore next */
     throw new Error(`Container ${containerId} is unregistered`);
   }
   const container = containers[containerId];

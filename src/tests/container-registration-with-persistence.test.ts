@@ -32,7 +32,7 @@ import {
   State as StateVer1,
   reducer,
   dispatchActions,
-} from "./state-container/enhanced-logic";
+} from "./common/enhanced-logic";
 import { registerStateChangedCallback } from "../register-state-changed-callback";
 import { finishedProcessingQueue } from "../auxiliary/action-queue-operations";
 import { getContainer } from "../get-container";

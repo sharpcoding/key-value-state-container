@@ -36,6 +36,7 @@ export const clearAllEnqueuedActions = (args: {
   const { containerId } = args;
 
   const container = containers[containerId];
+  // istanbul ignore next
   if (!container) {
     return;
   }

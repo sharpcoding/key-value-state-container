@@ -29,7 +29,7 @@ import {
   dispatchActions,
   reducer,
   State,
-} from "./state-container/enhanced-logic";
+} from "./common/enhanced-logic";
 import { finishedProcessingQueue } from "../auxiliary/action-queue-operations";
 import { registerActionDispatchedCallback } from "../register-action-dispatched-callback";
 import { registerStateChangedCallback } from "../register-state-changed-callback";

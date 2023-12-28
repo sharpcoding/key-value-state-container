@@ -24,7 +24,7 @@
 
 import _ from "lodash";
 
-import { Action, reducer, State } from "./state-container/enhanced-logic";
+import { Action, reducer, State } from "./common/enhanced-logic";
 import {
   actionInQueue,
   actionInQueueStatus,
@@ -65,7 +65,7 @@ afterEach(() => {
   unregisterStateContainer({ containerId });
 });
 
-test("adding and processing some random actions", async () => {
+test("action queue action status is calculated correctly", async () => {
   expect(
     actionInQueue({
       containerId,

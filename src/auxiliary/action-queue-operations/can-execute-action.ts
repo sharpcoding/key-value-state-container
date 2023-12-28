@@ -35,6 +35,7 @@ export const canExecuteAction = (args: Args): boolean => {
   const { containerId } = args;
 
   const container = containers[containerId];
+  // istanbul ignore next
   if (!container) {
     console.warn(
       `Cannot check action queue - container ${containerId} not found !`

@@ -24,7 +24,7 @@
 
 import _ from "lodash";
 
-import { Memory } from "../../types/memory";
+import { ContainerInMemory } from "../../types/container-in-memory";
 import { containers } from "../../containers";
 import { Action } from "../../types/contracts/action";
 import { actionInQueueStatus } from "./action-in-queue-status";
@@ -36,7 +36,7 @@ interface Args<TAction> {
 }
 
 const notify = <TAction extends Action>(
-  container: Memory<any, TAction>,
+  container: ContainerInMemory<any, TAction>,
   action: TAction,
   operation: "added to" | "replaced in"
 ) => {
@@ -63,7 +63,7 @@ const notify = <TAction extends Action>(
 };
 
 const addActionToQueue = <TAction extends Action>(
-  container: Memory<any, TAction>,
+  container: ContainerInMemory<any, TAction>,
   action: TAction
 ) => {
   if (
@@ -89,7 +89,7 @@ const addActionToQueue = <TAction extends Action>(
 };
 
 const replaceActionInQueue = <TAction extends Action>(
-  container: Memory<any, TAction>,
+  container: ContainerInMemory<any, TAction>,
   action: TAction,
   index: number
 ) => {

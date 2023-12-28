@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import { Memory } from "./types/memory";
+import { ContainerInMemory } from "./types/container-in-memory";
 import { getActionPath } from "./auxiliary/get-action-path";
 import { containers } from "./containers";
 import {
@@ -32,7 +32,7 @@ import {
 
 interface Args {
   actionPath?: string;
-  container: Memory<Object, Action>;
+  container: ContainerInMemory<Object, Action>;
   internalListenerId: string;
   log: "container-not-found" | "registered-listener-for-path";
 }

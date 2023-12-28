@@ -1,9 +1,9 @@
-import { Memory } from "../../types/memory";
+import { ContainerInMemory } from "../../types/container-in-memory";
 import { Action } from "../../types/contracts/action";
 import { numberOfActionsLeft } from "./number-of-actions-left";
 
 type Args = {
-  container: Memory<Object, Action>;
+  container: ContainerInMemory<Object, Action>;
 };
 
 /**

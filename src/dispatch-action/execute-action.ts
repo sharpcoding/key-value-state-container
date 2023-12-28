@@ -32,10 +32,12 @@ import {
   checkOnlyBypassReducerActionsLeft,
   getNextAction,
 } from "../auxiliary/action-queue-operations";
+import { cloneObject } from "../auxiliary/clone-object";
 import { notifyStateChangedListeners } from "./notify-state-changed-listeners";
 import { getStateWithAsyncFlag } from "./get-state-with-async-flag";
 import { actionNextSteps } from "./action-next-steps";
 import { executeActionLogging } from "./execute-action-logging";
+import { evaluateStateComparisonType } from "./evaluate-state-comparison-type";
 
 export const executeAction = async <
   TState extends Object,
@@ -46,12 +48,17 @@ export const executeAction = async <
 }) => {
   const { action, containerId } = args;
   const container = containers[containerId];
-  container.oldState = _.clone(container.newState);
+  container.oldState = container.newState;
 
   const asyncOperationFlag =
     container.config?.managedAttributes?.asyncOperationFlag;
 
   let asyncOperationFlagValue: boolean = false;
+
+  const comparison = evaluateStateComparisonType({
+    action,
+    containerConfig: container.config,
+  })
 
   if (action.async && asyncOperationFlag) {
     asyncOperationFlagValue = true;
@@ -67,6 +74,7 @@ export const executeAction = async <
     container.newState = state;
     container.immediateState = {};
     container.changedPaths = getChangedPaths({
+      comparison,
       newState: state,
       oldState: container.oldState,
     });
@@ -83,9 +91,14 @@ export const executeAction = async <
     case false: {
       const { reducer = () => Promise.resolve(container.oldState) } = container;
 
+      /**
+       * ❤️ one of the most essential lines of the library ❤️
+       */
       const reducerNewState = await reducer({
         action,
-        state: container.oldState,
+        state: action?.protectState
+          ? cloneObject(container.oldState)
+          : container.oldState,
       });
 
       const nextAction = getNextAction({
@@ -100,6 +113,7 @@ export const executeAction = async <
       });
 
       const changedPaths = getChangedPaths({
+        comparison,
         newState,
         oldState: getStateWithAsyncFlag({
           action,
