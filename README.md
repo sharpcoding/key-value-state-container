@@ -26,7 +26,7 @@ A simple, library-agnostic key-value based state container following [MVC](https
 
 ## Demo/Example 
 
-The example presents the `MC` parts of the `MVC` pattern. The `V` part is missing for now, however, the requirement is `V` to be reactive (which is understood as refreshing itself as a result to some kind of "signal"). `key-value-state-container-react` package implements `useSelector` hook, which is a good example of `V` part implementation.
+The example presents the `MC` parts of the `MVC` pattern. The `V` part is missing for now, however, the requirement is `V` to be reactive (which is understood as refreshing itself as a result to some kind of "signal", executed after one or more state attributes changed). `key-value-state-container-react` package implements `useSelector` hook, which is a good example of `V` part implementation.
 
 Hopefully, if you know `redux` and `react-redux`, you will find the example below quite familiar.
 
@@ -36,13 +36,13 @@ Hopefully, if you know `redux` and `react-redux`, you will find the example belo
   - name
   - emoji
   - status
-    - `todo`
-    - `in-progress`
-    - `done`
-    - `archived`
+    - `"todo"`
+    - `"in-progress"`
+    - `"done"`
+    - `"archived"`
 - there are two screens:
-  - the Working Tasks Screen (tasks with `todo`, `in-progress`, `done` statuses)
-  - the Archived Tasks Screen (tasks with `archived` status)
+  - the Working Tasks Screen (tasks with `"todo"`, `"in-progress"`, `"done"` statuses)
+  - the Archived Tasks Screen (tasks with `"archived"` status)
   - the archived tasks functionality is not 100% implemented right now
   - once task is archived, it cannot be undone
 - the Working Tasks Screen can be filtered by
@@ -51,9 +51,9 @@ Hopefully, if you know `redux` and `react-redux`, you will find the example belo
   - (filter funnel will be visible in the UI to the user)
   - for now, filter can be only applied to the Working Tasks Screen
 - each time the user changes anything in Working Tasks Screen UI, tasks should get sorted by statuses the following way:
-  - `todo` (at the top)
-  - `in-progress`
-  - `done` (at the bottom)
+  - `"todo"` (at the top)
+  - `"in-progress"`
+  - `"done"` (at the bottom)
   - if statuses are equal, sort by task name
 
 ### `M` - the model (state)
@@ -86,7 +86,8 @@ type State = {
 
   /**
    * Lookup storing all tasks
-   * The source of truth for tasks
+   * The "source of truth" for tasks
+   * This object is not bound to UI directly
    */
   sourceTasks: Record<string, Task>;
 
@@ -104,31 +105,26 @@ type State = {
 
 ```ts
 type Action =
+  | { name: "add-task"; payload: Task }
   /**
-   * Never delete any task in system, archive it.
-   * Benefit: no need a special function for unique task id
+   * Never delete tasks in system, archive them.
    */
   | {
       name: "archive-task";
       payload: Task["id"];
     }
-  /**
-   * Create or update a task action
-   * (used in task editing)
-   */
-  | { name: "update-task"; payload: Task }
   | {
       name: "set-filter";
       payload?: Filter;
     }
   /**
    * Special action that is dispatched by `autoActions`
-   * optional function, and not by user/UI
+   * optional function, and not by user/UI or the test suite.
    */
   | {
       name: "sort-working-tasks";
-    };
-
+    }
+  | { name: "update-task"; payload: Partial<Task> & Pick<Task, "id"> };
 ```
 
 #### Reducer
@@ -281,7 +277,7 @@ export const autoActions: AutoActions<State, Action> = ({ action }) => {
 };
 ```
 
-Please read [`jest` test file specification](src/tests/todo-list.test.ts) to see how sequence of actions are being executed on the list of tasks as below, including automatically added `"sort-working-tasks"`.
+Please read [`jest` test file specification](src/tests/todo-list.test.ts) to see how sequence of actions are being executed on the list of tasks as below:
 
 ```ts
 const sourceTasks: Record<string, Task> = {
@@ -312,6 +308,8 @@ const sourceTasks: Record<string, Task> = {
 };
 ```
 
+See that no `"sort-working-tasks"` action is dispatched directly by test suite. It is dispatched by `autoActions` function (optional extension function).
+
 ## Precautions
 
 Although the library is already used in the production environment, it is still in the early stage of development 🧪, so API and some specific naming might change.
@@ -320,7 +318,7 @@ Although the library is already used in the production environment, it is still 
 
 - computed/calculated attributes
 - improved developer experience with logging toolkit, action queue visualization etc.
-- sagas - right now it is visible in `clearAllEnqueuedActions()`
+- external action queue manipulation (right now it is only possible to `clearAllEnqueuedActions()`) and/or sagas
 
 ## Installation
 
