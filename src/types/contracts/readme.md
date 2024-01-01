@@ -1,0 +1,1 @@
+Contracts describe interfaces that can be reused (somehow) in the client/app code.
