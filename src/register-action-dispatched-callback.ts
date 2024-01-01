@@ -31,10 +31,16 @@ import { registerListenerInternal } from "./register-listener-internal";
 /**
  * Low-level function registering a callback that will get called when an action
  * got dispatched.
+ * 
+ * `listenerId` attribute should an unique identifier of the listener 
+ * (the callback function).
  *
  * No matter the state was changed or not, a was reducer invoked or not
  * (see also `bypassReducer` in the `dispatchAction()` function),
  * this callback will get called.
+ * 
+ * Each `registerActionDispatchedCallback()` call must be paired with 
+ * a call to `unregisterActionDispatchedCallback()`.
  */
 export const registerActionDispatchedCallback: RegisterActionDispatchedCallbackFunction =
   ({ action: { name: actionName }, callback, listenerId, containerId }) => {

@@ -22,11 +22,12 @@
  * SOFTWARE.
  */
 
-import { PersistenceEnvelope } from "../../types/persistence-envelope";
+import { PersistenceEnvelope } from "./persistence-envelope";
 
-interface PersistenceConverterArgs {
+export interface PersistenceConverterArgs {
   /**
    * Fragment of persisted state as stored in the persistence target
+   * It might be an object, base64 or a JSON string.
    */
   persistedState: unknown;
 
@@ -38,8 +39,8 @@ interface PersistenceConverterArgs {
 
 export interface StateContainerPersistence<TState extends Object> {
   /**
-   * Mandatory function to read persisted state envelope from the persistence target
-   * (local storage, etc.) under a given `key` 
+   * Mandatory function - provided externally - to read persisted state envelope 
+   * from the persistence target (local storage, etc.) under a given `key` 
    * 
    * For the sake of simplicity, use synchronous `get` from `local-storage`
    */
@@ -65,7 +66,7 @@ export interface StateContainerPersistence<TState extends Object> {
 
   /**
    * Optional converter function to convert persisted state.
-   * This is useful when you want to migrate persisted state to new version.
+   * This is useful when persisted state should be migrated to new version.
    *
    * Rules of persistence conversion:
    * - it is the user responsibility to provide and implement a converter function

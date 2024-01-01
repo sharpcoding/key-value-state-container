@@ -29,7 +29,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">Config</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/ec54600/src/types/config/index.ts#L30">types/config/index.ts:30</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/types/config/config.ts#L30">types/config/config.ts:30</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -41,6 +41,7 @@
 <a href="Config.html#debug" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>debug?</span></a>
 <a href="Config.html#keepState" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>keep<wbr/>State?</span></a>
 <a href="Config.html#managedAttributes" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>managed<wbr/>Attributes?</span></a>
+<a href="Config.html#protectState" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>protect<wbr/>State?</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
@@ -48,11 +49,11 @@
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>action<wbr/>Queue<wbr/>Max<wbr/>Length</span><a href="#actionQueueMaxLength" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">action<wbr/>Queue<wbr/>Max<wbr/>Length</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span></div>
 <div class="tsd-comment tsd-typography">
-<h4>Default</h4><pre><code class="language-ts"><span class="hl-9">1000</span>
+<h4>Default</h4><pre><code class="language-ts"><span class="hl-7">1000</span>
 </code><button>Copy</button></pre>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/ec54600/src/types/config/index.ts#L34">types/config/index.ts:34</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/types/config/config.ts#L34">types/config/config.ts:34</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="debug" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>debug</span><a href="#debug" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">debug</span><span class="tsd-signature-symbol">?:</span> <a href="ConfigDebugSection.html" class="tsd-signature-type tsd-kind-interface">ConfigDebugSection</a></div>
@@ -61,7 +62,7 @@ it is the only place where this kind of the information is displayed).</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/ec54600/src/types/config/index.ts#L40">types/config/index.ts:40</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/types/config/config.ts#L40">types/config/config.ts:40</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="keepState" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>keep<wbr/>State</span><a href="#keepState" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">keep<wbr/>State</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div>
@@ -69,7 +70,10 @@ it is the only place where this kind of the information is displayed).</p>
 multiple times.</p>
 <p>If set to true, other calls (but first) to registerStateContainer 
 function won&#39;t override existing container state with initial state once again.</p>
-<p>It does not affect <code>unregisterStateContainer</code> function - once &quot;unregister&quot; 
+<p>In fact, treat this rather as a debug flag, as it is rather unnecessary to call 
+<code>registerStateContainer</code> function with <code>keepState</code> set to <code>true</code>. If so, 
+it might be a sign something with container registration is not OK.</p>
+<p>Setting does not affect <code>unregisterStateContainer</code> function - once &quot;unregister&quot; 
 gets called, the state gets removed.</p>
 </div>
 <div class="tsd-comment tsd-typography">
@@ -77,7 +81,7 @@ gets called, the state gets removed.</p>
 </code><button>Copy</button></pre>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/ec54600/src/types/config/index.ts#L74">types/config/index.ts:74</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/types/config/config.ts#L78">types/config/config.ts:78</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="managedAttributes" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>managed<wbr/>Attributes</span><a href="#managedAttributes" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">managed<wbr/>Attributes</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-symbol">{ </span><br/><span>    </span><span class="tsd-kind-property">asyncOperationFlag</span><span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type tsd-kind-type-parameter">TState</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></div>
@@ -101,7 +105,22 @@ this field is set to <code>false</code>
 <div class="tsd-comment tsd-typography"></div></li></ul></div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/ec54600/src/types/config/index.ts#L47">types/config/index.ts:47</a></li></ul></aside></section></section></div>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/types/config/config.ts#L47">types/config/config.ts:47</a></li></ul></aside></section>
+<section class="tsd-panel tsd-member"><a id="protectState" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>protect<wbr/>State</span><a href="#protectState" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<div class="tsd-signature"><span class="tsd-kind-property">protect<wbr/>State</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div>
+<div class="tsd-comment tsd-typography"><p>If set to <code>true</code>, the <code>state</code> argument passed in the <code>reducer</code> function will 
+be a cloned copy of the current state, not the state as it is in the container.</p>
+<p>Keep in mind mutating the state might be a good thing actually in some cases
+(especially from performance point of view), providing working/correct solution.</p>
+<p>Please take into account the state object containing (callback) functions 
+(more advanced scenarios) will not work with this flag,
+as objects containing functions cannot be cloned. </p>
+<p>@default: true</p>
+</div>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/types/config/config.ts#L93">types/config/config.ts:93</a></li></ul></aside></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -124,7 +143,8 @@ this field is set to <code>false</code>
 <li><a href="#actionQueueMaxLength" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>action<wbr/>Queue<wbr/>Max<wbr/>Length</span></a></li>
 <li><a href="#debug" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>debug</span></a></li>
 <li><a href="#keepState" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>keep<wbr/>State</span></a></li>
-<li><a href="#managedAttributes" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>managed<wbr/>Attributes</span></a></li></ul></div></details></div>
+<li><a href="#managedAttributes" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>managed<wbr/>Attributes</span></a></li>
+<li><a href="#protectState" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1024"></use></svg><span>protect<wbr/>State</span></a></li></ul></div></details></div>
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="../modules.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1"></use></svg><span>key-value-state-container</span></a>
 <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="..">
@@ -134,6 +154,8 @@ this field is set to <code>false</code>
 <li><a href="Config.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Config</a></li>
 <li><a href="ConfigDebugSection.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ConfigDebugSection</a></li>
 <li><a href="GetContainerConfig.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>GetContainerConfig</a></li>
+<li><a href="PersistenceConverterArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>PersistenceConverterArgs</a></li>
+<li><a href="PersistenceEnvelope.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>PersistenceEnvelope</a></li>
 <li><a href="Reducer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Reducer</a></li>
 <li><a href="RegisterActionDispatchedCallbackArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>RegisterActionDispatchedCallbackArgs</a></li>
 <li><a href="RegisterActionDispatchedCallbackFunction.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>RegisterActionDispatchedCallbackFunction</a></li>
@@ -145,10 +167,8 @@ this field is set to <code>false</code>
 <li><a href="UnregisterActionDispatchedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterActionDispatchedCallback</a></li>
 <li><a href="UnregisterStateChangedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateChangedCallback</a></li>
 <li><a href="UnregisterStateContainer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateContainer</a></li>
-<li><a href="../types/CallbacksDictionary.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CallbacksDictionary</a></li>
+<li><a href="../types/PersistenceEnvelopeContents.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>PersistenceEnvelopeContents</a></li>
 <li><a href="../types/TKnownStatePath.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>TKnownStatePath</a></li>
-<li><a href="../functions/clearAllEnqueuedActions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>clearAllEnqueuedActions</a></li>
-<li><a href="../functions/containerRegistered.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>containerRegistered</a></li>
 <li>Loading...</li></ul></nav></div></div></div>
 <div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" rel="noopener" target="_blank">TypeDoc</a></p></div>

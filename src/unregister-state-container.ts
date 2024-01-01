@@ -27,6 +27,12 @@ import _ from "lodash";
 import { containers } from "./containers";
 import { UnregisterStateContainer } from "./types/contracts/unregister-state-container";
 
+/**
+ * Unregisters a state container from memory.
+ * 
+ * Each `registerStateContainer()` call should be paired 
+ * with `unregisterStateContainer()` invocation.
+ */
 export const unregisterStateContainer: UnregisterStateContainer = (args: {
   containerId: string;
 }) => {

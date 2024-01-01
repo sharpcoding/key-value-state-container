@@ -25,7 +25,7 @@
 import _ from "lodash";
 
 import { Action } from "../types/contracts/action";
-import { PersistenceEnvelope } from "../types/persistence-envelope";
+import { PersistenceEnvelope } from "../types/contracts/persistence-envelope";
 import { RegisterStateContainerArgs } from "../types/contracts/register-state-container";
 
 interface Args<TState extends Object, TAction extends Action>

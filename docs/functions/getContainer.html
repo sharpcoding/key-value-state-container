@@ -20,16 +20,24 @@
 <li class="tsd-signature tsd-anchor-link" id="getContainer"><span class="tsd-kind-call-signature">get<wbr/>Container</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">TState</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">args</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">TState</span><a href="#getContainer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Gets the state of the container (an object).</p>
-<p>This function is a simple and &quot;low-cost&quot; read operation,
-immediate, causing no side effects.</p>
-<p>Please do not modify the returned state object.</p>
+<p>Function operation is a simple and &quot;low-cost&quot; read-only operation,
+evaluated immediately, causing no side effects. If possible, please 
+prefer it over other ways of reading state 
+(e.g <code>useSelector()</code> of <code>key-value-state-container-react</code>, 
+which makes component re-render &quot;listened to&quot; attributes).</p>
+<p>Do not modify the returned (state) object, as it will not invoke 
+listeners (callbacks) (registered with <code>registerStateChangedCallback()</code> 
+or <code>registerActionDispatchedCallback()</code>).</p>
+<p>For modifying the state without sending actions, calling reducers 
+and invoking listeners (callbacks), use <code>updateStateContainer()</code> 
+(although it is not recommended).</p>
 <p>Example state (abstraction in memory):</p>
-<pre><code><span class="hl-7">Object</span><span class="hl-1"> (</span><span class="hl-5">&quot;EV&quot;</span><span class="hl-1">)</span><br/><span class="hl-1">+- </span><span class="hl-5">&quot;power&quot;</span><span class="hl-1"> (</span><span class="hl-4">object</span><span class="hl-1">)</span><br/><span class="hl-1">|  +- </span><span class="hl-5">&quot;currentConsumption&quot;</span><span class="hl-1"> (</span><span class="hl-4">number</span><span class="hl-1">): </span><span class="hl-9">15</span><br/><span class="hl-1">|  +- </span><span class="hl-5">&quot;rangeLeft&quot;</span><span class="hl-1"> (</span><span class="hl-4">number</span><span class="hl-1">): </span><span class="hl-9">225</span><br/><span class="hl-1">+- </span><span class="hl-5">&quot;wheels&quot;</span><span class="hl-1"> (</span><span class="hl-4">array</span><span class="hl-1">)</span><br/><span class="hl-1">   +- </span><span class="hl-5">&quot;frontLeftPressure&quot;</span><span class="hl-1"> (</span><span class="hl-4">number</span><span class="hl-1">): </span><span class="hl-9">2.2</span><br/><span class="hl-1">   +- </span><span class="hl-5">&quot;frontRightPressure&quot;</span><span class="hl-1"> (</span><span class="hl-4">number</span><span class="hl-1">): </span><span class="hl-9">2.2</span><br/><span class="hl-1">   +- </span><span class="hl-5">&quot;backLeftPressure&quot;</span><span class="hl-1"> (</span><span class="hl-4">number</span><span class="hl-1">): </span><span class="hl-9">2.1</span><br/><span class="hl-1">   +- </span><span class="hl-5">&quot;backRightPressure&quot;</span><span class="hl-1"> (</span><span class="hl-4">number</span><span class="hl-1">): </span><span class="hl-9">2.3</span>
+<pre><code><span class="hl-8">Object</span><span class="hl-1"> (</span><span class="hl-3">&quot;EV&quot;</span><span class="hl-1">)</span><br/><span class="hl-1">+- </span><span class="hl-3">&quot;power&quot;</span><span class="hl-1"> (</span><span class="hl-4">object</span><span class="hl-1">)</span><br/><span class="hl-1">|  +- </span><span class="hl-3">&quot;currentConsumption&quot;</span><span class="hl-1"> (</span><span class="hl-4">number</span><span class="hl-1">): </span><span class="hl-7">15</span><br/><span class="hl-1">|  +- </span><span class="hl-3">&quot;rangeLeft&quot;</span><span class="hl-1"> (</span><span class="hl-4">number</span><span class="hl-1">): </span><span class="hl-7">225</span><br/><span class="hl-1">+- </span><span class="hl-3">&quot;wheels&quot;</span><span class="hl-1"> (</span><span class="hl-4">array</span><span class="hl-1">)</span><br/><span class="hl-1">   +- </span><span class="hl-3">&quot;frontLeftPressure&quot;</span><span class="hl-1"> (</span><span class="hl-4">number</span><span class="hl-1">): </span><span class="hl-7">2.2</span><br/><span class="hl-1">   +- </span><span class="hl-3">&quot;frontRightPressure&quot;</span><span class="hl-1"> (</span><span class="hl-4">number</span><span class="hl-1">): </span><span class="hl-7">2.2</span><br/><span class="hl-1">   +- </span><span class="hl-3">&quot;backLeftPressure&quot;</span><span class="hl-1"> (</span><span class="hl-4">number</span><span class="hl-1">): </span><span class="hl-7">2.1</span><br/><span class="hl-1">   +- </span><span class="hl-3">&quot;backRightPressure&quot;</span><span class="hl-1"> (</span><span class="hl-4">number</span><span class="hl-1">): </span><span class="hl-7">2.3</span>
 </code><button>Copy</button></pre>
 <p>Anti-pattern:</p>
-<pre><code><span class="hl-0">const</span><span class="hl-1"> { </span><span class="hl-8">power</span><span class="hl-1"> } = </span><span class="hl-7">getContainer</span><span class="hl-1">({ </span><span class="hl-4">containerId:</span><span class="hl-1"> </span><span class="hl-5">&quot;ev-20214553&quot;</span><span class="hl-1"> });</span><br/><span class="hl-3">// DO NOT DO THIS!</span><br/><span class="hl-4">power</span><span class="hl-1">.</span><span class="hl-4">currentConsumption</span><span class="hl-1"> = </span><span class="hl-9">0</span><span class="hl-1">;</span>
+<pre><code><span class="hl-0">const</span><span class="hl-1"> { </span><span class="hl-6">power</span><span class="hl-1"> } = </span><span class="hl-8">getContainer</span><span class="hl-1">({ </span><span class="hl-4">containerId:</span><span class="hl-1"> </span><span class="hl-3">&quot;ev-20214553&quot;</span><span class="hl-1"> });</span><br/><span class="hl-5">// DO NOT DO THIS!</span><br/><span class="hl-4">power</span><span class="hl-1">.</span><span class="hl-4">currentConsumption</span><span class="hl-1"> = </span><span class="hl-7">0</span><span class="hl-1">;</span>
 </code><button>Copy</button></pre>
-<p>Modifying the state object returned by <code>getContainer()</code> function
+<p>To reiterate: modifying the state object returned by <code>getContainer()</code> function
 as described above won&#39;t invoke any state listeners (callbacks), 
 moreover, might lead to unexpected behavior (in the client application).</p>
 <p>There is a dedicated (official) <code>updateStateContainer()</code> function for 
@@ -63,7 +71,7 @@ If <code>false</code>, the method will throw an error in such case.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">TState</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/ec54600/src/types/contracts/get-container.ts#L29">types/contracts/get-container.ts:29</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/types/contracts/get-container.ts#L29">types/contracts/get-container.ts:29</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -88,6 +96,8 @@ If <code>false</code>, the method will throw an error in such case.</p>
 <li><a href="../interfaces/Config.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Config</a></li>
 <li><a href="../interfaces/ConfigDebugSection.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ConfigDebugSection</a></li>
 <li><a href="../interfaces/GetContainerConfig.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>GetContainerConfig</a></li>
+<li><a href="../interfaces/PersistenceConverterArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>PersistenceConverterArgs</a></li>
+<li><a href="../interfaces/PersistenceEnvelope.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>PersistenceEnvelope</a></li>
 <li><a href="../interfaces/Reducer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Reducer</a></li>
 <li><a href="../interfaces/RegisterActionDispatchedCallbackArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>RegisterActionDispatchedCallbackArgs</a></li>
 <li><a href="../interfaces/RegisterActionDispatchedCallbackFunction.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>RegisterActionDispatchedCallbackFunction</a></li>
@@ -99,10 +109,8 @@ If <code>false</code>, the method will throw an error in such case.</p>
 <li><a href="../interfaces/UnregisterActionDispatchedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterActionDispatchedCallback</a></li>
 <li><a href="../interfaces/UnregisterStateChangedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateChangedCallback</a></li>
 <li><a href="../interfaces/UnregisterStateContainer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateContainer</a></li>
-<li><a href="../types/CallbacksDictionary.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CallbacksDictionary</a></li>
+<li><a href="../types/PersistenceEnvelopeContents.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>PersistenceEnvelopeContents</a></li>
 <li><a href="../types/TKnownStatePath.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>TKnownStatePath</a></li>
-<li><a href="clearAllEnqueuedActions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>clearAllEnqueuedActions</a></li>
-<li><a href="containerRegistered.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>containerRegistered</a></li>
 <li>Loading...</li></ul></nav></div></div></div>
 <div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" rel="noopener" target="_blank">TypeDoc</a></p></div>

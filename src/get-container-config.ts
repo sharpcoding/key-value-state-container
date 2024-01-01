@@ -22,15 +22,16 @@
  * SOFTWARE.
  */
 
-import { Config } from "./types/config";
 import { containerRegistered } from "./container-registered";
 import { containers } from "./containers";
 import { GetContainerConfig } from "./types/contracts/get-container-config";
 
 /**
- * Contrary to `getContainer()`, function, that gets the 
- * current state of the container, this function returns the
- * configuration.
+ * Returns the configuration of a registered container
+ * 
+ * If container is not registered:
+ * - returns an empty object if `ignoreUnregistered` is true
+ * - throws an error otherwise
  */
 export const getContainerConfig: GetContainerConfig = (args) => {
   const { containerId, ignoreUnregistered } = args;

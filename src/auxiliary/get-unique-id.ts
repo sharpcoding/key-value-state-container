@@ -45,16 +45,19 @@ const getCryptoRandomValues = (): number[] => {
 };
 
 /**
- * Quick and dirty way to generate a unique id.
+ * Generates an unique id.
+ * Useful for creating listener (callback) ids.
  * Might be useful in other libraries like `key-value-state-container-react`.
  *
  * Example values returned:
+ * ```
  * "b18abf172490cb5bcd7ff108cc3b9c26"
  * "bc4e0e4e0089fc7688c91f3256904a43"
  * "78d6a7adb302fa91ea4561a2379969cf"
  * "64e9d57be7b86406cd00f82b52c63ac9"
  * "5a640299add47fb719f439ff9134fa58"
  * "7690a143ce2ea74dab2c66f151186e43"
+ * ```
  */
 export const getUniqueId = () => {
   const array = getCryptoRandomValues();

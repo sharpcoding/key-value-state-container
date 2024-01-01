@@ -24,7 +24,7 @@
 
 import _ from "lodash";
 
-import { Action, reducer, State } from "./common/enhanced-logic";
+import { Action, reducer, State } from "./common/calculator-logic";
 import {
   actionInQueue,
   actionInQueueStatus,
@@ -86,7 +86,7 @@ test("action queue action status is calculated correctly", async () => {
 
   const { status: status1 } = actionInQueueStatus({
     containerId,
-    name: addedActions[actionsToAddLength - 1].name,
+    name: addedActions[actionsToAddLength - 1]?.name,
   });
   expect(status1).toEqual("enqueued-for-later-execution");
   expect(containers[containerId].actionQueueContext.lastActionIndex).toEqual(

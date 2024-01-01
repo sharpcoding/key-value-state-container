@@ -28,6 +28,12 @@ import { UnregisterStateChangedCallback } from "./types/contracts/unregister-sta
 import { TKnownStatePath } from "./types/contracts/known-state-path";
 import { LATE_INVOKE_PREFIX } from "./consts";
 
+/**
+ * As the name implies, unregisters a listener with an unique `listenerId`.
+ * 
+ * Note that if `registerStateChangedCallback` was called with `lateInvoke` set to `true`,
+ * then this function must be called with `lateInvoke` set to `true` as well.
+ */
 export const unregisterStateChangedCallback: UnregisterStateChangedCallback = <
   TState extends Object
 >(args: {

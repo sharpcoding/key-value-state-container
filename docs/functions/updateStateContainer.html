@@ -19,22 +19,29 @@
 <ul class="tsd-signatures">
 <li class="tsd-signature tsd-anchor-link" id="updateStateContainer"><span class="tsd-kind-call-signature">update<wbr/>State<wbr/>Container</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">TState</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">args</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#updateStateContainer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Function to &quot;silently&quot; modify the state container.
-Causes no side effects and has immediate effect.</p>
-<p>In the most cases you shouldn&#39;t use it, as the typical 
-scenario is as the following:</p>
+<div class="tsd-comment tsd-typography"><p>A &quot;special&quot; function to instantly modify a registered state container.</p>
+<p>The caveats: </p>
+<ul>
+<li><code>reducer</code> does not get called, so the state gets modified beyond <code>reducer</code> </li>
+<li>as the consequence, no callback listeners (registered with either <code>registerStateChangedCallback()</code> 
+or registerActionDispatchedCallback()`) get invoked.</li>
+</ul>
+<p>This &quot;special&quot; way of modifying state container shouldn&#39;t be used 
+in the most circumstances, because modifying the state pulls out the logic 
+outside the reducer.</p>
+<p>The recommended and typical scenario is as the following:</p>
 <ul>
 <li>dispatch an action (by calling <code>dispatchAction()</code> function)</li>
-<li>(state container takes the responsibility) to calls for a reducer</li>
-<li>reducer gets processed and a new state object is returned</li>
-<li>(in 99% of cases) a fragment of state is modified (related to the old state)</li>
-<li>and this change is detected</li>
-<li>appropriate listeners are invoked</li>
-<li>UI gets repainted etc.</li>
-<li>optionally, all this can get logged to the Web Developer Console</li>
+<li>(state container takes the responsibility) to call the <code>reducer</code></li>
+<li><code>reducer</code> gets processed and a new state object is created</li>
+<li>(in the most of cases) a fragment of state is modified</li>
+<li>a top level attributes change get detected</li>
+<li>appropriate listeners get invoked</li>
+<li>UI gets refreshed/repainted etc.</li>
+<li>all this above can get logged to the Web Developer Console</li>
 </ul>
-<p>But there are cases when you want to modify the state container directly
-and make it &quot;silently&quot; and immediately.</p>
+<p>There are cases when you want to modify the state container directly, 
+make it &quot;silently&quot; and immediately: in most cases because of performance optimizations.</p>
 </div>
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
@@ -68,7 +75,7 @@ but only necessary set of attributes.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/ec54600/src/update-state-container.ts#L46">update-state-container.ts:46</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/update-state-container.ts#L53">update-state-container.ts:53</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -93,6 +100,8 @@ but only necessary set of attributes.</p>
 <li><a href="../interfaces/Config.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Config</a></li>
 <li><a href="../interfaces/ConfigDebugSection.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ConfigDebugSection</a></li>
 <li><a href="../interfaces/GetContainerConfig.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>GetContainerConfig</a></li>
+<li><a href="../interfaces/PersistenceConverterArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>PersistenceConverterArgs</a></li>
+<li><a href="../interfaces/PersistenceEnvelope.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>PersistenceEnvelope</a></li>
 <li><a href="../interfaces/Reducer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Reducer</a></li>
 <li><a href="../interfaces/RegisterActionDispatchedCallbackArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>RegisterActionDispatchedCallbackArgs</a></li>
 <li><a href="../interfaces/RegisterActionDispatchedCallbackFunction.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>RegisterActionDispatchedCallbackFunction</a></li>
@@ -104,10 +113,8 @@ but only necessary set of attributes.</p>
 <li><a href="../interfaces/UnregisterActionDispatchedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterActionDispatchedCallback</a></li>
 <li><a href="../interfaces/UnregisterStateChangedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateChangedCallback</a></li>
 <li><a href="../interfaces/UnregisterStateContainer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateContainer</a></li>
-<li><a href="../types/CallbacksDictionary.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CallbacksDictionary</a></li>
+<li><a href="../types/PersistenceEnvelopeContents.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>PersistenceEnvelopeContents</a></li>
 <li><a href="../types/TKnownStatePath.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>TKnownStatePath</a></li>
-<li><a href="clearAllEnqueuedActions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>clearAllEnqueuedActions</a></li>
-<li><a href="containerRegistered.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg>containerRegistered</a></li>
 <li>Loading...</li></ul></nav></div></div></div>
 <div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" rel="noopener" target="_blank">TypeDoc</a></p></div>

@@ -29,6 +29,7 @@ export * from "./dispatch-action";
 export * from "./get-container-config";
 export * from "./get-container";
 export * from "./known-state-path";
+export * from "./persistence-envelope";
 export * from "./reducer";
 export * from "./register-action-dispatched-callback";
 export * from "./register-state-changed-callback";

@@ -55,7 +55,7 @@ afterAll(() => {
   unregisterStateContainer({ containerId });
 });
 
-test("initial state", () => {
+test("verify initial state in properly initialized", () => {
   const { workingTasks } = getContainer<State>({ containerId });
   expect(workingTasks).toEqual([
     {

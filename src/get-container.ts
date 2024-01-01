@@ -29,10 +29,19 @@ import { GetContainer } from "./types/contracts";
 /**
  * Gets the state of the container (an object).
  *
- * This function is a simple and "low-cost" read operation,
- * immediate, causing no side effects.
+ * Function operation is a simple and "low-cost" read-only operation,
+ * evaluated immediately, causing no side effects. If possible, please 
+ * prefer it over other ways of reading state 
+ * (e.g `useSelector()` of `key-value-state-container-react`, 
+ * which makes component re-render "listened to" attributes).
  * 
- * Please do not modify the returned state object.
+ * Do not modify the returned (state) object, as it will not invoke 
+ * listeners (callbacks) (registered with `registerStateChangedCallback()` 
+ * or `registerActionDispatchedCallback()`).
+ * 
+ * For modifying the state without sending actions, calling reducers 
+ * and invoking listeners (callbacks), use `updateStateContainer()` 
+ * (although it is not recommended).
  *
  * Example state (abstraction in memory):
  * 
@@ -55,7 +64,7 @@ import { GetContainer } from "./types/contracts";
  * power.currentConsumption = 0;
  * ```
  * 
- * Modifying the state object returned by `getContainer()` function
+ * To reiterate: modifying the state object returned by `getContainer()` function
  * as described above won't invoke any state listeners (callbacks), 
  * moreover, might lead to unexpected behavior (in the client application).
  * 

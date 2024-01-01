@@ -35,6 +35,17 @@ import { invokeInitialStateFunctionForPersistence } from "./invoke-initial-state
 import { properRegistration } from "./proper-registration";
 import { configDefaults } from "../types/config/defaults";
 
+/**
+ * Registers a state container in memory.
+ * 
+ * Before doing anything with the container, invoke this function.
+ * 
+ * `keepState` configuration attribute makes the container immune to 
+ * accidental re-registration.
+ * 
+ * Each `registerStateContainer()` call should be paired
+ * with `unregisterStateContainer()` invocation.
+ */
 export const registerStateContainer: RegisterStateContainer = <
   TState extends Object,
   TAction extends Action

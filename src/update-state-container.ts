@@ -26,22 +26,29 @@ import { Config } from "./types/config";
 import { containers } from "./containers";
 
 /**
- * Function to "silently" modify the state container.
- * Causes no side effects and has immediate effect.
- *
- * In the most cases you shouldn't use it, as the typical 
- * scenario is as the following:
- * - dispatch an action (by calling `dispatchAction()` function)
- * - (state container takes the responsibility) to calls for a reducer
- * - reducer gets processed and a new state object is returned
- * - (in 99% of cases) a fragment of state is modified (related to the old state)
- * - and this change is detected
- * - appropriate listeners are invoked
- * - UI gets repainted etc.
- * - optionally, all this can get logged to the Web Developer Console
+ * A "special" function to instantly modify a registered state container.
  * 
- * But there are cases when you want to modify the state container directly
- * and make it "silently" and immediately.
+ * The caveats: 
+ * - `reducer` does not get called, so the state gets modified beyond `reducer` 
+ * - as the consequence, no callback listeners (registered with either `registerStateChangedCallback()` 
+ *   or registerActionDispatchedCallback()`) get invoked.
+ *
+ * This "special" way of modifying state container shouldn't be used 
+ * in the most circumstances, because modifying the state pulls out the logic 
+ * outside the reducer.
+ * 
+ * The recommended and typical scenario is as the following:
+ * - dispatch an action (by calling `dispatchAction()` function)
+ * - (state container takes the responsibility) to call the `reducer`
+ * - `reducer` gets processed and a new state object is created
+ * - (in the most of cases) a fragment of state is modified
+ * - a top level attributes change get detected
+ * - appropriate listeners get invoked
+ * - UI gets refreshed/repainted etc.
+ * - all this above can get logged to the Web Developer Console
+ * 
+ * There are cases when you want to modify the state container directly, 
+ * make it "silently" and immediately: in most cases because of performance optimizations.
  */
 export const updateStateContainer = <
   TState extends Object

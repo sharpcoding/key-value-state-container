@@ -29,7 +29,7 @@ import { StateContainerPersistence } from "../types/contracts";
 import {
   PersistenceEnvelope,
   PersistenceEnvelopeContents,
-} from "../types/persistence-envelope";
+} from "../types/contracts/persistence-envelope";
 import { getPersistenceKey } from "../auxiliary/get-persistence-key";
 
 interface Args {

@@ -24,7 +24,7 @@
 
 import _ from "lodash";
 
-import { PersistenceEnvelope } from "../types/persistence-envelope";
+import { PersistenceEnvelope } from "../types/contracts/persistence-envelope";
 import { registerStateContainer } from "../register-state-container";
 import { unregisterStateContainer } from "../unregister-state-container";
 import {
@@ -32,7 +32,7 @@ import {
   State as StateVer1,
   reducer,
   dispatchActions,
-} from "./common/enhanced-logic";
+} from "./common/calculator-logic";
 import { registerStateChangedCallback } from "../register-state-changed-callback";
 import { finishedProcessingQueue } from "../auxiliary/action-queue-operations";
 import { getContainer } from "../get-container";
