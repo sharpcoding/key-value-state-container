@@ -1,4 +1,6 @@
+import { cloneObject } from "../auxiliary/clone-object";
 import { getChangedPaths } from "../get-changed-paths";
+
 
 test("changed paths are detected for spread-modified object in the deep comparison", async () => {
   const baseCar = {
@@ -12,7 +14,7 @@ test("changed paths are detected for spread-modified object in the deep comparis
     },
   };
 
-  const tunedCar = structuredClone({
+  const tunedCar = cloneObject({
     ...baseCar,
     engine: { ...baseCar.engine, horsepower: 200 },
   });
@@ -38,7 +40,7 @@ test("changed paths are detected for inline-modified object in the deep comparis
     },
   };
 
-  const tunedCar = structuredClone(baseCar);
+  const tunedCar = cloneObject(baseCar);
   tunedCar.engine.horsepower = 200;
 
   expect(
