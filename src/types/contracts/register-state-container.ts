@@ -27,6 +27,7 @@ import { Config } from "../config";
 import { AutoActions } from "./auto-actions";
 import { Reducer } from "./reducer";
 import { StateContainerPersistence } from "./state-container-persistence";
+import { AutoState } from "./auto-state";
 
 export interface RegisterStateContainerArgs<
   TState extends Object,
@@ -40,6 +41,7 @@ export interface RegisterStateContainerArgs<
    * If there are no actions to be produced, return empty array
    */
   autoActions?: AutoActions<TState, TAction>;
+  autoState?: AutoState<TState, TAction>;
 
   /**
    * Set globally unique id for container

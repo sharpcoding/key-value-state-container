@@ -1,18 +1,18 @@
 /**
  * The MIT License (MIT)
- * 
- * Copyright Tomasz Szatkowski and WealthArc https://www.wealtharc.com (c) 2023 
- * 
+ *
+ * Copyright Tomasz Szatkowski and WealthArc https://www.wealtharc.com (c) 2023
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,12 +37,12 @@ import { configDefaults } from "../types/config/defaults";
 
 /**
  * Registers a state container in memory.
- * 
+ *
  * Before doing anything with the container, invoke this function.
- * 
- * `keepState` configuration attribute makes the container immune to 
+ *
+ * `keepState` configuration attribute makes the container immune to
  * accidental re-registration.
- * 
+ *
  * Each `registerStateContainer()` call should be paired
  * with `unregisterStateContainer()` invocation.
  */
@@ -51,6 +51,7 @@ export const registerStateContainer: RegisterStateContainer = <
   TAction extends Action
 >({
   autoActions,
+  autoState,
   config: argsConfig,
   containerId,
   initialState,
@@ -81,6 +82,7 @@ export const registerStateContainer: RegisterStateContainer = <
     );
     properRegistration({
       autoActions,
+      autoState,
       config,
       containerId,
       initialState: invokeInitialStateFunctionForPersistence({
@@ -96,6 +98,7 @@ export const registerStateContainer: RegisterStateContainer = <
 
   properRegistration({
     autoActions,
+    autoState,
     config,
     containerId,
     initialState,

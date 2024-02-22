@@ -24,6 +24,7 @@
 
 export * from "./action";
 export * from "./auto-actions";
+export * from "./auto-state";
 export * from "./client-notification-callback-args";
 export * from "./dispatch-action";
 export * from "./get-container-config";

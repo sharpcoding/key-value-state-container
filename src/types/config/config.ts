@@ -81,6 +81,9 @@ export interface Config<TState extends Object> {
    * If set to `true`, the `state` argument passed in the `reducer` function will 
    * be a cloned copy of the current state, not the state as it is in the container.
    * 
+   * Please read the documentation for the `registerStateContainer` function, 
+   * `config` arg.
+   * 
    * Keep in mind mutating the state might be a good thing actually in some cases
    * (especially from performance point of view), providing working/correct solution.
    * 

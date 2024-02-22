@@ -58,7 +58,7 @@ export const executeAction = async <
   const comparison = evaluateStateComparisonType({
     action,
     containerConfig: container.config,
-  })
+  });
 
   if (action.async && asyncOperationFlag) {
     asyncOperationFlagValue = true;
@@ -89,10 +89,12 @@ export const executeAction = async <
 
   switch (!!action.bypassReducer) {
     case false: {
-      const { reducer = () => Promise.resolve(container.oldState) } = container;
+      const { autoState, reducer = () => Promise.resolve(container.oldState) } =
+        container;
 
       /**
-       * ❤️ one of the most essential lines of the library ❤️
+       * ❤️ the most essential line of the library
+       *   all other code is a kind of addition   ❤️
        */
       const reducerNewState = await reducer({
         action,
@@ -105,9 +107,27 @@ export const executeAction = async <
         containerId,
       });
 
+      const autoStateNewState = autoState
+        ? autoState({
+            action,
+            changedPaths: getChangedPaths({
+              comparison,
+              newState: reducerNewState,
+              oldState: getStateWithAsyncFlag({
+                action,
+                state: container.oldState,
+                asyncOperationFlagValue,
+                asyncOperationFlag,
+              }),
+            }),
+            newState: reducerNewState,
+            oldState: container.oldState,
+          })
+        : reducerNewState;
+
       const newState = getStateWithAsyncFlag({
         action,
-        state: reducerNewState,
+        state: autoStateNewState,
         asyncOperationFlagValue: nextAction?.async || false,
         asyncOperationFlag,
       });

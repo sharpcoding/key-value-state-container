@@ -28,6 +28,7 @@ import { Config } from "./config";
 import { StateContainerPersistence } from "./contracts/state-container-persistence";
 import { AutoActions } from "./contracts/auto-actions";
 import { Reducer } from "./contracts/reducer";
+import { AutoState } from "./contracts";
 
 type StatePath = string;
 type ListenerId = string;
@@ -54,6 +55,7 @@ export interface ContainerInMemory<TState extends Object, TAction extends Action
    */
   actionQueueContext: ActionQueueContext<TAction>;
   autoActions?: AutoActions<TState, TAction>;
+  autoState?: AutoState<TState, TAction>;
   /**
    * Special optimization flag.
    * If `true`, indicates `bypassReducer` action was enqueued 

@@ -27,6 +27,7 @@ import { containers } from "../containers";
 import { ACTION_QUEUE_DEFAULT_SIZE } from "../consts";
 import {
   AutoActions,
+  AutoState,
   Reducer,
   RegisterStateContainerArgs,
 } from "../types/contracts";
@@ -44,6 +45,7 @@ export const properRegistration = <
   TAction extends Action
 >({
   autoActions,
+  autoState,
   containerId,
   config,
   initialState,
@@ -65,6 +67,7 @@ export const properRegistration = <
       ),
     },
     autoActions: autoActions as AutoActions<any, Action> | undefined,
+    autoState: autoState as AutoState<any, Action> | undefined,
     changedPaths: [],
     id: containerId,
     config,

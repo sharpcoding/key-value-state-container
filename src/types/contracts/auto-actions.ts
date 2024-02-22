@@ -1,18 +1,18 @@
 /**
  * The MIT License (MIT)
- * 
- * Copyright Tomasz Szatkowski and WealthArc https://www.wealtharc.com (c) 2023 
- * 
+ *
+ * Copyright Tomasz Szatkowski and WealthArc https://www.wealtharc.com (c) 2023
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -24,6 +24,18 @@
 
 import { Action } from "./action";
 
+/**
+ * Optional function that produces (returns) an array of actions to be
+ * added to (the end of) the action queue *after* a a particular `action`
+ * finished execution.
+ * 
+ * The "auto" phrase means the `autoActions` function invocation is automatic:
+ * - after a proper action gets dispatched
+ * - after the new state is calculated in reducer
+ * - after invoking callback listeners
+ *
+ * If there are no actions to be produced, returns empty array (`[]`) of actions.
+ */
 export interface AutoActions<TState extends Object, TAction extends Action> {
   (args: {
     action: TAction;
