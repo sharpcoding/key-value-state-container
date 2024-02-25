@@ -25,9 +25,10 @@
 import _ from "lodash";
 
 interface Args {
-  oldState: any;
   comparison: "shallow" | "deep";
+  containerId: string;
   newState: any;
+  oldState: any;
 }
 
 const getChangedPathsInternal = (
@@ -35,14 +36,20 @@ const getChangedPathsInternal = (
     parentPath: string[];
   }
 ): string[] => {
-  const { comparison, newState,  oldState, parentPath } = args;
+  const { comparison, containerId, newState, oldState, parentPath } = args;
   return _.reduce(
     _.uniq([..._.keys(oldState), ..._.keys(newState)]),
     (acc: string[], key) => {
       switch (comparison) {
         case "deep": {
-          if (JSON.stringify(oldState[key]) !== JSON.stringify(newState[key])) {
-            acc.push(_.join([...parentPath, key], "."));
+          try {
+            const oldStringified = JSON.stringify(oldState[key]);
+            const newStringified = JSON.stringify(newState[key]);
+            if (oldStringified !== newStringified) {
+              acc.push(_.join([...parentPath, key], "."));
+            }
+          } catch (e) {
+            console.error(`${containerId}: `, e);
           }
           break;
         }

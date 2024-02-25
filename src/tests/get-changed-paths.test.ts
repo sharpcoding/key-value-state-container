@@ -1,6 +1,8 @@
+import { getUniqueId } from "../auxiliary/get-unique-id";
 import { cloneObject } from "../auxiliary/clone-object";
 import { getChangedPaths } from "../get-changed-paths";
 
+const containerId = getUniqueId();
 
 test("changed paths are detected for spread-modified object in the deep comparison", async () => {
   const baseCar = {
@@ -21,6 +23,7 @@ test("changed paths are detected for spread-modified object in the deep comparis
 
   expect(
     getChangedPaths({
+      containerId,
       comparison: "deep",
       newState: tunedCar,
       oldState: baseCar,
@@ -45,6 +48,7 @@ test("changed paths are detected for inline-modified object in the deep comparis
 
   expect(
     getChangedPaths({
+      containerId,
       comparison: "deep",
       newState: tunedCar,
       oldState: baseCar,
@@ -79,6 +83,7 @@ test("changed paths works with functions", async () => {
 
   expect(
     getChangedPaths({
+      containerId,
       comparison: "shallow",
       newState: tunedCar,
       oldState: baseCar,
@@ -105,6 +110,7 @@ test("changed paths does not detect mutated objects", async () => {
 
   expect(
     getChangedPaths({
+      containerId,
       comparison: "shallow",
       newState: tunedCar,
       oldState: baseCar,

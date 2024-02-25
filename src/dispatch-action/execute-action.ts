@@ -75,6 +75,7 @@ export const executeAction = async <
     container.immediateState = {};
     container.changedPaths = getChangedPaths({
       comparison,
+      containerId,
       newState: state,
       oldState: container.oldState,
     });
@@ -112,6 +113,7 @@ export const executeAction = async <
             action,
             changedPaths: getChangedPaths({
               comparison,
+              containerId,
               newState: reducerNewState,
               oldState: getStateWithAsyncFlag({
                 action,
@@ -134,6 +136,7 @@ export const executeAction = async <
 
       const changedPaths = getChangedPaths({
         comparison,
+        containerId,
         newState,
         oldState: getStateWithAsyncFlag({
           action,
