@@ -28,13 +28,14 @@ import { Action } from "./action";
  * Optional state "factory" function that "auto-generates" state.
  *
  * The "auto" phrase means the `autoState` function invocation is automatic:
- * - after a proper action gets dispatched
- * - after the new state is calculated in reducer
- * - before:
+ * - after an action gets dispatched
+ * - after the new state is calculated in reducer and passed to this function in `newState` argument
+ * - ...but before:
  *   - invoking any callback listeners
- *   - dispatching any new actions
+ *   - dispatching any new actions (taking an action from a queue and dispatching it)
  *
- * In most cases the `autoState` recalculation function looks for the `changedPaths` attribute.
+ * In most cases the `newState` parameter is not useful and `autoState` recalculation 
+ * function looks for the more useful `changedPaths` attribute.
  *
  * Key points:
  * - the attribute(s) that are calculated in `autoState` should be somehow 
@@ -52,7 +53,7 @@ import { Action } from "./action";
  *   // production date yyyy-MM-dd
  *   production: string;
  *
- *   chasis: "new" | "used" | "damaged";
+ *   chassis: "new" | "used" | "damaged";
  *   body: "new" | "used" | "damaged";
  *
  *   // total mileage
@@ -66,18 +67,18 @@ import { Action } from "./action";
  * ```
  *
  * the `brand`, `model`, `production` are constants (as these never change), 
- * but the `valuationUSD` of the car is related to `chasis`, `body` 
+ * but the `valuationUSD` of the car is related to `chassis`, `body` 
  * and `mileage` attributes.
  * 
  * The key point is: there is no direct `"decrease-valuation"` action!
  * .
  * The `valuationUSD` is the consequence of calling one of the following:
- * - `"damage-to-chasis"`
+ * - `"damage-to-chassis"`
  * - `"damage-to-body"`
  * - `"add-miles"`
  * actions (and then appropriate reducers).
  *
- * Moreover, `"damage-to-chasis"`, `"damage-to-body"`, `"add-miles"` actions don't
+ * Moreover, `"damage-to-chassis"`, `"damage-to-body"`, `"add-miles"` actions don't
  * require dispatching special `"recalculate-valuation"` action (although it could 
  * be done this way).
  *

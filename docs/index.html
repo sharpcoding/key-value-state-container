@@ -27,20 +27,21 @@
 <li><code>flux</code>-like (reactive component-oriented)</li>
 <li>minimal dependencies (currently <code>lodash</code>)</li>
 <li>simple: state changes are detected at the master attribute level only (thus <code>key-value</code> container)</li>
-<li>synchronous persistence <ul>
+<li>synchronous persistence<ul>
 <li>read at the &quot;build initial state&quot; level</li>
 <li>auto-write at the dispatch action level</li>
 </ul>
 </li>
-<li>no &quot;dogmas&quot; (and experimental features):<ul>
+<li>no &quot;dogmas&quot; (thus freedom to extend with experimental features):<ul>
 <li>reducer is an ES6 <code>async</code> function, which would save you from writing thunks and middlewares, placing all important code and logic in one place (but you can use synchronous reducers as synchronous reducers as well, see examples)</li>
 <li>use for notification mechanism: dispatch an action that does not modify the state and is not processed by reducer (<code>byPassReducer</code> action attribute)</li>
 <li>&quot;how to invoke action from reducer&quot; problem addressed with optional <code>autoActions</code> optional function</li>
+<li><code>autoState</code> function for readonly and calculated attributes (like lookup hashes) </li>
 <li>although the state is protected for mutation, optionally mutate the state directly (yet: no callbacks will get invoked)</li>
 </ul>
 </li>
 <li>written in TypeScript (so typings are included automatically!)</li>
-<li>85% unit test coverage</li>
+<li>~85% unit test coverage</li>
 <li>focus on documentation</li>
 </ul>
 <a id="md:demoexample" class="tsd-anchor"></a><h2><a href="#md:demoexample">Demo/Example</a></h2><p>The example presents the <code>MC</code> parts of the <code>MVC</code> pattern. The <code>V</code> part is missing for now, however, the requirement is <code>V</code> to be reactive (which is understood as refreshing itself as a result to some kind of &quot;signal&quot;, executed after one or more state attributes changed). <code>key-value-state-container-react</code> package implements <code>useSelector</code> hook, which is a good example of <code>V</code> part implementation.</p>
@@ -141,6 +142,7 @@ e.g.<pre><code><span class="hl-1"> </span><span class="hl-3">&quot;dependencies&
 <li>reducers are <code>async</code></li>
 <li>even simpler: no need to write thunks or middlewares</li>
 <li><code>autoActions</code> optional function, making it possible to &quot;dispatch actions from reducer&quot;</li>
+<li><code>autoState</code> optional function for recalculated and read-only attributes (kind of <code>createSlice</code>, but simpler - takes as arguments mainly state and the action, returns a new state - please read documentation for more details),</li>
 <li>smaller codebase, ready to be extended</li>
 <li>(probably) shallow learning curve, as there are less features</li>
 <li>no immer support, no state slices etc</li>
@@ -341,6 +343,7 @@ e.g.<pre><code><span class="hl-1"> </span><span class="hl-3">&quot;dependencies&
 <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base=".">
 <li><a href="interfaces/Action.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Action</a></li>
 <li><a href="interfaces/AutoActions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>AutoActions</a></li>
+<li><a href="interfaces/AutoState.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>AutoState</a></li>
 <li><a href="interfaces/ClientNotificationCallbackArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ClientNotificationCallbackArgs</a></li>
 <li><a href="interfaces/Config.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Config</a></li>
 <li><a href="interfaces/ConfigDebugSection.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ConfigDebugSection</a></li>
@@ -359,7 +362,6 @@ e.g.<pre><code><span class="hl-1"> </span><span class="hl-3">&quot;dependencies&
 <li><a href="interfaces/UnregisterStateChangedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateChangedCallback</a></li>
 <li><a href="interfaces/UnregisterStateContainer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateContainer</a></li>
 <li><a href="types/PersistenceEnvelopeContents.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>PersistenceEnvelopeContents</a></li>
-<li><a href="types/TKnownStatePath.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>TKnownStatePath</a></li>
 <li>Loading...</li></ul></nav></div></div></div>
 <div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" rel="noopener" target="_blank">TypeDoc</a></p></div>

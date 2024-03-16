@@ -43,7 +43,7 @@ export const getContainerConfig: GetContainerConfig = (args) => {
     if (ignoreUnregistered) {
       return {};
     }
-    // istanbul ignore next
+    /* istanbul ignore next */
     throw new Error(`Container ${containerId} is unregistered`);
   }
   const container = containers[containerId].config;

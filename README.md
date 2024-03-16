@@ -16,16 +16,17 @@ A simple, library-agnostic key-value based state container following [MVC](https
 - `flux`-like (reactive component-oriented)
 - minimal dependencies (currently `lodash`)
 - simple: state changes are detected at the master attribute level only (thus `key-value` container)
-- synchronous persistence 
+- synchronous persistence
   - read at the "build initial state" level
   - auto-write at the dispatch action level
-- no "dogmas" (and experimental features):
+- no "dogmas" (thus freedom to extend with experimental features):
   - reducer is an ES6 `async` function, which would save you from writing thunks and middlewares, placing all important code and logic in one place (but you can use synchronous reducers as synchronous reducers as well, see examples)
   - use for notification mechanism: dispatch an action that does not modify the state and is not processed by reducer (`byPassReducer` action attribute)
   - "how to invoke action from reducer" problem addressed with optional `autoActions` optional function
+  - `autoState` function for readonly and calculated attributes (like lookup hashes) 
   - although the state is protected for mutation, optionally mutate the state directly (yet: no callbacks will get invoked)
 - written in TypeScript (so typings are included automatically!)
-- 85% unit test coverage
+- ~85% unit test coverage
 - focus on documentation
 
 ## Demo/Example
@@ -398,7 +399,8 @@ Definitely not. `redux`, `react-redux` and `redux-toolkit` are great libraries, 
 - reducers are `async`
 - even simpler: no need to write thunks or middlewares
 - `autoActions` optional function, making it possible to "dispatch actions from reducer"
-- smaller codebase, ready to be extended
+- `autoState` optional function for recalculated and read-only attributes (kind of `computed` in MobX or `createSlice` in `redux-toolkit`, but simpler - takes as arguments mainly state and the action, returns a new state - please read documentation for more details),
+- smaller codebase, ready to get extended
 - (probably) shallow learning curve, as there are less features
 - no immer support, no state slices etc
 - handles race conditions by using action queue and `immediateState` attribute
