@@ -1,18 +1,18 @@
 /**
  * The MIT License (MIT)
- * 
- * Copyright Tomasz Szatkowski and WealthArc https://www.wealtharc.com (c) 2023 
- * 
+ *
+ * Copyright Tomasz Szatkowski and WealthArc https://www.wealtharc.com (c) 2023
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,19 +27,21 @@ import { Config } from "../config";
 import { AutoActions } from "./auto-actions";
 import { Reducer } from "./reducer";
 import { StateContainerPersistence } from "./state-container-persistence";
+import { AutoState } from "./auto-state";
 
 export interface RegisterStateContainerArgs<
   TState extends Object,
   TAction extends Action
 > {
   /**
-   * Optional "factory" function that produces (returns) array of actions to be
-   * added to action queue AFTER a a particular action finished execution.
-   * These actions are added to the queue only if the state has changed.
-   * 
-   * If there are no actions to be produced, return empty array
+   * Please read the `AutoActions` interface for more details.
    */
   autoActions?: AutoActions<TState, TAction>;
+
+  /**
+   * Please read the `AutoState` interface for more details.
+   */
+  autoState?: AutoState<TState, TAction>;
 
   /**
    * Set globally unique id for container
@@ -48,8 +50,8 @@ export interface RegisterStateContainerArgs<
   config?: Config<TState>;
   /**
    * Initial state can be a simple object (most of the cases).
-   * 
-   * If `initialState` is a function, it gets invoked automatically 
+   *
+   * If `initialState` is a function, it gets invoked automatically
    * and the effect is initial state.
    */
   initialState: TState | ((persistedState: Partial<TState>) => TState);

@@ -116,19 +116,23 @@ export interface Action {
   evanescent?: boolean;
 
   /**
-   * If set to `true`, the `state` argument passed in the `reducer` function will 
+   * If set to `true`, the `state` argument passed in the `reducer` function will
    * be a cloned copy of the current state, not the state as it is in the container.
    * 
+   * Generally, it should be a decision/task of a reducer function to return 
+   * a cloned state (if necessary). But if set, the, state container will clone 
+   * the state automatically for developer.
+   *
    * Setting this to `true` (if not set to `true` in the state container configuration)
    * will override the state container configuration and could help eliminate some
    * common bugs.
-   * 
-   * Keep in mind mutating the state might be a desired thing actually 
-   * (especially from performance point of view). 
-   * 
-   * (In the more advanced scenarios) state object containing callback functions 
-   * will not work with this flag, as objects containing functions cannot be cloned. 
-   * 
+   *
+   * Keep in mind mutating the state might be a desired thing actually
+   * (especially from performance point of view).
+   *
+   * (In the more advanced scenarios) state object containing callback functions
+   * will not work with this flag, as objects containing functions cannot be cloned.
+   *
    * Default value: as passed in the `registerStateContainer` function!
    */
   protectState?: boolean;

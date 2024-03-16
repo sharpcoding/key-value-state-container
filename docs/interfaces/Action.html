@@ -41,7 +41,7 @@ action contracts:</p>
 <ul class="tsd-hierarchy">
 <li><span class="target">Action</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/types/contracts/action.ts#L68">types/contracts/action.ts:68</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d6825aa/src/types/contracts/action.ts#L68">types/contracts/action.ts:68</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -73,7 +73,7 @@ and automatically to <code>false</code> - as the reducer ends executing.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/types/contracts/action.ts#L88">types/contracts/action.ts:88</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d6825aa/src/types/contracts/action.ts#L88">types/contracts/action.ts:88</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="bypassReducer" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>bypass<wbr/>Reducer</span><a href="#bypassReducer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">bypass<wbr/>Reducer</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div>
@@ -83,7 +83,7 @@ state - reducer section in code would get called.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/types/contracts/action.ts#L96">types/contracts/action.ts:96</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d6825aa/src/types/contracts/action.ts#L96">types/contracts/action.ts:96</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="evanescent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>evanescent</span><a href="#evanescent" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">evanescent</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div>
@@ -105,7 +105,7 @@ to keep information like this in the action message queue</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/types/contracts/action.ts#L116">types/contracts/action.ts:116</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d6825aa/src/types/contracts/action.ts#L116">types/contracts/action.ts:116</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="name" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>name</span><a href="#name" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">name</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
@@ -113,24 +113,27 @@ to keep information like this in the action message queue</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/types/contracts/action.ts#L72">types/contracts/action.ts:72</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d6825aa/src/types/contracts/action.ts#L72">types/contracts/action.ts:72</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="protectState" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>protect<wbr/>State</span><a href="#protectState" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">protect<wbr/>State</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div>
-<div class="tsd-comment tsd-typography"><p>If set to <code>true</code>, the <code>state</code> argument passed in the <code>reducer</code> function will 
+<div class="tsd-comment tsd-typography"><p>If set to <code>true</code>, the <code>state</code> argument passed in the <code>reducer</code> function will
 be a cloned copy of the current state, not the state as it is in the container.</p>
+<p>Generally, it should be a decision/task of a reducer function to return 
+a cloned state (if necessary). But if set, the, state container will clone 
+the state automatically for developer.</p>
 <p>Setting this to <code>true</code> (if not set to <code>true</code> in the state container configuration)
 will override the state container configuration and could help eliminate some
 common bugs.</p>
-<p>Keep in mind mutating the state might be a desired thing actually 
-(especially from performance point of view). </p>
-<p>(In the more advanced scenarios) state object containing callback functions 
-will not work with this flag, as objects containing functions cannot be cloned. </p>
+<p>Keep in mind mutating the state might be a desired thing actually
+(especially from performance point of view).</p>
+<p>(In the more advanced scenarios) state object containing callback functions
+will not work with this flag, as objects containing functions cannot be cloned.</p>
 <p>Default value: as passed in the <code>registerStateContainer</code> function!</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/types/contracts/action.ts#L134">types/contracts/action.ts:134</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d6825aa/src/types/contracts/action.ts#L138">types/contracts/action.ts:138</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member"><a id="waitForFullUiRepaint" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>wait<wbr/>For<wbr/>Full<wbr/>Ui<wbr/>Repaint</span><a href="#waitForFullUiRepaint" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
 <div class="tsd-signature"><span class="tsd-kind-property">wait<wbr/>For<wbr/>Full<wbr/>Ui<wbr/>Repaint</span><span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">boolean</span></div>
@@ -145,7 +148,7 @@ and might not be able to respond to user input.</p>
 </div>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/types/contracts/action.ts#L148">types/contracts/action.ts:148</a></li></ul></aside></section></section></div>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d6825aa/src/types/contracts/action.ts#L152">types/contracts/action.ts:152</a></li></ul></aside></section></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -176,6 +179,7 @@ and might not be able to respond to user input.</p>
 <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="..">
 <li><a href="Action.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Action</a></li>
 <li><a href="AutoActions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>AutoActions</a></li>
+<li><a href="AutoState.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>AutoState</a></li>
 <li><a href="ClientNotificationCallbackArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ClientNotificationCallbackArgs</a></li>
 <li><a href="Config.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Config</a></li>
 <li><a href="ConfigDebugSection.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ConfigDebugSection</a></li>
@@ -194,7 +198,6 @@ and might not be able to respond to user input.</p>
 <li><a href="UnregisterStateChangedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateChangedCallback</a></li>
 <li><a href="UnregisterStateContainer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateContainer</a></li>
 <li><a href="../types/PersistenceEnvelopeContents.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>PersistenceEnvelopeContents</a></li>
-<li><a href="../types/TKnownStatePath.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>TKnownStatePath</a></li>
 <li>Loading...</li></ul></nav></div></div></div>
 <div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" rel="noopener" target="_blank">TypeDoc</a></p></div>

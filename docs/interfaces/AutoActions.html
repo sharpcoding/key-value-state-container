@@ -14,7 +14,20 @@
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">key-value-state-container</a></li>
 <li><a href="AutoActions.html">AutoActions</a></li></ul>
-<h1>Interface AutoActions&lt;TState, TAction&gt;</h1></div> 
+<h1>Interface AutoActions&lt;TState, TAction&gt;</h1></div>
+<section class="tsd-panel tsd-comment">
+<div class="tsd-comment tsd-typography"><p>Optional function that produces (returns) an array of actions to be
+added to (the end of) the action queue <em>after</em> a a particular <code>action</code>
+finished execution.</p>
+<p>The &quot;auto&quot; phrase means the <code>autoActions</code> function invocation is automatic:</p>
+<ul>
+<li>after a proper action gets dispatched</li>
+<li>after the new state is calculated in reducer</li>
+<li>after invoking callback listeners</li>
+</ul>
+<p>If there are no actions to be produced, returns empty array (<code>[]</code>) of actions.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></section> 
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
@@ -46,7 +59,7 @@
 <h5><span class="tsd-kind-property">old<wbr/>State</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">TState</span></h5></li></ul></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">TAction</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d8305ff/src/types/contracts/auto-actions.ts#L28">types/contracts/auto-actions.ts:28</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/sharpcoding/key-value-state-container/blob/d6825aa/src/types/contracts/auto-actions.ts#L40">types/contracts/auto-actions.ts:40</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -67,6 +80,7 @@
 <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="..">
 <li><a href="Action.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Action</a></li>
 <li><a href="AutoActions.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>AutoActions</a></li>
+<li><a href="AutoState.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>AutoState</a></li>
 <li><a href="ClientNotificationCallbackArgs.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ClientNotificationCallbackArgs</a></li>
 <li><a href="Config.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>Config</a></li>
 <li><a href="ConfigDebugSection.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>ConfigDebugSection</a></li>
@@ -85,7 +99,6 @@
 <li><a href="UnregisterStateChangedCallback.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateChangedCallback</a></li>
 <li><a href="UnregisterStateContainer.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-256"></use></svg>UnregisterStateContainer</a></li>
 <li><a href="../types/PersistenceEnvelopeContents.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>PersistenceEnvelopeContents</a></li>
-<li><a href="../types/TKnownStatePath.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>TKnownStatePath</a></li>
 <li>Loading...</li></ul></nav></div></div></div>
 <div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" rel="noopener" target="_blank">TypeDoc</a></p></div>
